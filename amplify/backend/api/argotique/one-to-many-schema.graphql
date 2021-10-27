@@ -1,0 +1,30 @@
+type Page @model {
+  id: ID!
+  name: String!
+  posts: [Post] @connection(keyName: "byPage", fields: ["id"])
+}
+
+type Post @model @key(name: "byPage", fields: ["pageID"]) {
+  id: ID!
+  title: String!
+  subtitle: String!
+  content: String!
+  pageID: ID!
+  page: Page @connection(fields: ["pageID"])
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+  # @Field(() => String) date
+  # author
+  # number of votes
+  # voters
+}
+
+type Comment @model @key(name: "byPost", fields: ["postID", "content"]) {
+  id: ID!
+  postID: ID!
+  post: Post @connection(fields: ["postID"])
+  content: String!
+  # @Field(() => String) date
+  # author
+  # number of votes
+  # voters
+}
