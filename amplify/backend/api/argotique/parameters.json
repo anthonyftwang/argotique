@@ -1,5 +1,11 @@
 {
   "AppSyncApiName": "argotique",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authargotique3af83199",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

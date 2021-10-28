@@ -1,5 +1,41 @@
-type Note @model {
+type User @model @auth(rules: [{allow: private, provider: iam}]) {
   id: ID!
   name: String!
-  description: String
+  email: String!
+  bio: String
+  joinedAt: AWSDateTime!
+  UserPosts: [Post] @connection(keyName: "byUser", fields: ["id"])
+  VotesFor: [UserPost] @connection(keyName: "byUser", fields: ["id"])
 }
+
+type Comment @model @auth(rules: [{allow: owner, operations: [create, update, delete]}]) @key(name: "byPost", fields: ["postID"]) {
+  id: ID!
+  content: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  votes: Int!
+  postID: ID!
+}
+
+type Post @model @auth(rules: [{allow: owner, operations: [create, update, delete]}]) @key(name: "byUser", fields: ["userID"]) {
+  id: ID!
+  title: String!
+  subtitle: String!
+  content: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  lastActivityAt: AWSDateTime!
+  votes: Int!
+  userID: ID!
+  PostComments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+  VotedBy: [UserPost] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type UserPost @model(queries: null) @key(name: "byUser", fields: ["userID", "postID"]) @key(name: "byPost", fields: ["postID", "userID"]) @auth(rules: [{allow: owner, operations: [create, update, delete]}]) {
+  id: ID!
+  userID: ID!
+  postID: ID!
+  user: User! @connection(fields: ["userID"])
+  post: Post! @connection(fields: ["postID"])
+}
+ 

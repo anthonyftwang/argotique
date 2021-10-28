@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "argotique3af83199": {}
+      },
+      "function": {
+        "argotiqueAddNewUser": {
+          "deploymentBucketName": "amplify-amplify8f2b05c820fa4-staging-32441-deployment",
+          "s3Key": "amplify-builds/argotiqueAddNewUser-766e4770395348465934-build.zip"
+        }
       }
     }
   }
