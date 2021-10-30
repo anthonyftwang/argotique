@@ -69,5 +69,13 @@
         }
       ]
     }
+  },
+  "storage": {
+    "Useruk5bmajo2zc7pjck4ht325nenustaging": {
+      "service": "DynamoDB",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }

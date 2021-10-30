@@ -228,12 +228,27 @@ export const schema = {
                                 "provider": "userPools",
                                 "ownerField": "owner",
                                 "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
-                                    "delete"
-                                ],
-                                "identityClaim": "cognito:username"
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "provider": "iam",
+                                "operations": [
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "provider": "iam",
+                                "operations": [
+                                    "read"
+                                ]
                             }
                         ]
                     }
@@ -310,12 +325,27 @@ export const schema = {
                                 "provider": "userPools",
                                 "ownerField": "owner",
                                 "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
-                                    "delete"
-                                ],
-                                "identityClaim": "cognito:username"
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "provider": "iam",
+                                "operations": [
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "provider": "iam",
+                                "operations": [
+                                    "read"
+                                ]
                             }
                         ]
                     }
@@ -412,12 +442,27 @@ export const schema = {
                                 "provider": "userPools",
                                 "ownerField": "owner",
                                 "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
-                                    "delete"
-                                ],
-                                "identityClaim": "cognito:username"
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "provider": "iam",
+                                "operations": [
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "provider": "iam",
+                                "operations": [
+                                    "read"
+                                ]
                             }
                         ]
                     }

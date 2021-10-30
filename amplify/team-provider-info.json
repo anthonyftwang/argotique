@@ -18,7 +18,17 @@
       "function": {
         "argotiqueAddNewUser": {
           "deploymentBucketName": "amplify-amplify8f2b05c820fa4-staging-32441-deployment",
-          "s3Key": "amplify-builds/argotiqueAddNewUser-2b65587056616d546658-build.zip"
+          "s3Key": "amplify-builds/argotiqueAddNewUser-7663356a54514f73512b-build.zip"
+        }
+      },
+      "storage": {
+        "Useruk5bmajo2zc7pjck4ht325nenustaging": {
+          "tableName": "User-uk5bmajo2zc7pjck4ht325nenu-staging",
+          "region": "us-east-2",
+          "arn": "arn:aws:dynamodb:us-east-2:637005421219:table/User-uk5bmajo2zc7pjck4ht325nenu-staging",
+          "streamArn": "arn:aws:dynamodb:us-east-2:637005421219:table/User-uk5bmajo2zc7pjck4ht325nenu-staging/stream/2021-10-28T02:06:06.569",
+          "partitionKeyName": "id",
+          "partitionKeyType": "S"
         }
       }
     }

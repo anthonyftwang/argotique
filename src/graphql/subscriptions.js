@@ -152,8 +152,8 @@ export const onDeleteUser = /* GraphQL */ `
   }
 `;
 export const onCreateComment = /* GraphQL */ `
-  subscription OnCreateComment {
-    onCreateComment {
+  subscription OnCreateComment($owner: String) {
+    onCreateComment(owner: $owner) {
       id
       content
       createdAt
@@ -168,8 +168,8 @@ export const onCreateComment = /* GraphQL */ `
   }
 `;
 export const onUpdateComment = /* GraphQL */ `
-  subscription OnUpdateComment {
-    onUpdateComment {
+  subscription OnUpdateComment($owner: String) {
+    onUpdateComment(owner: $owner) {
       id
       content
       createdAt
@@ -184,8 +184,8 @@ export const onUpdateComment = /* GraphQL */ `
   }
 `;
 export const onDeleteComment = /* GraphQL */ `
-  subscription OnDeleteComment {
-    onDeleteComment {
+  subscription OnDeleteComment($owner: String) {
+    onDeleteComment(owner: $owner) {
       id
       content
       createdAt
@@ -200,8 +200,8 @@ export const onDeleteComment = /* GraphQL */ `
   }
 `;
 export const onCreatePost = /* GraphQL */ `
-  subscription OnCreatePost {
-    onCreatePost {
+  subscription OnCreatePost($owner: String) {
+    onCreatePost(owner: $owner) {
       id
       title
       subtitle
@@ -250,8 +250,8 @@ export const onCreatePost = /* GraphQL */ `
   }
 `;
 export const onUpdatePost = /* GraphQL */ `
-  subscription OnUpdatePost {
-    onUpdatePost {
+  subscription OnUpdatePost($owner: String) {
+    onUpdatePost(owner: $owner) {
       id
       title
       subtitle
@@ -300,8 +300,8 @@ export const onUpdatePost = /* GraphQL */ `
   }
 `;
 export const onDeletePost = /* GraphQL */ `
-  subscription OnDeletePost {
-    onDeletePost {
+  subscription OnDeletePost($owner: String) {
+    onDeletePost(owner: $owner) {
       id
       title
       subtitle
@@ -350,8 +350,8 @@ export const onDeletePost = /* GraphQL */ `
   }
 `;
 export const onCreateUserPost = /* GraphQL */ `
-  subscription OnCreateUserPost {
-    onCreateUserPost {
+  subscription OnCreateUserPost($owner: String) {
+    onCreateUserPost(owner: $owner) {
       id
       userID
       postID
@@ -408,8 +408,8 @@ export const onCreateUserPost = /* GraphQL */ `
   }
 `;
 export const onUpdateUserPost = /* GraphQL */ `
-  subscription OnUpdateUserPost {
-    onUpdateUserPost {
+  subscription OnUpdateUserPost($owner: String) {
+    onUpdateUserPost(owner: $owner) {
       id
       userID
       postID
@@ -466,8 +466,8 @@ export const onUpdateUserPost = /* GraphQL */ `
   }
 `;
 export const onDeleteUserPost = /* GraphQL */ `
-  subscription OnDeleteUserPost {
-    onDeleteUserPost {
+  subscription OnDeleteUserPost($owner: String) {
+    onDeleteUserPost(owner: $owner) {
       id
       userID
       postID
