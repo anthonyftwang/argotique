@@ -1,23 +1,13 @@
-type User @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) {
+type User @model @auth(rules: [{allow: owner}]) @key(fields: ["id"]) {
   id: ID!
   name: String!
   email: String!
-  bio: String
   joinedAt: AWSDateTime!
-  UserPosts: [Post] @connection(keyName: "byUser", fields: ["id"])
-  VotesFor: [UserPost] @connection(keyName: "byUser", fields: ["id"])
+  bio: String @auth(rules: [{allow: private, operations: [read]}, {allow: public, operations: [read]}])
+  posts: [Post] @connection(keyName: "postByUser", fields: ["id"])
 }
 
-type Comment @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) @key(name: "byPost", fields: ["postID"]) {
-  id: ID!
-  content: String!
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-  votes: Int!
-  postID: ID!
-}
-
-type Post @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) @key(name: "byUser", fields: ["userID"]) {
+type Post @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) @key(name: "postByUser", fields: ["userID"]) {
   id: ID!
   title: String!
   subtitle: String!
@@ -25,17 +15,29 @@ type Post @model @auth(rules: [{allow: owner}, {allow: private, operations: [rea
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   lastActivityAt: AWSDateTime!
-  votes: Int!
+  voteCount: Int!
   userID: ID!
-  PostComments: [Comment] @connection(keyName: "byPost", fields: ["id"])
-  VotedBy: [UserPost] @connection(keyName: "byPost", fields: ["id"])
+  user: User @connection(fields: ["userId"])
+  comments: [Comment] @connection(keyName: "commentsByPost", fields: ["id"])
+  votes: [PostVote] @connection(keyName: "votesByPost", fields: ["id"])
 }
 
-type UserPost @model(queries: null) @key(name: "byUser", fields: ["userID", "postID"]) @key(name: "byPost", fields: ["postID", "userID"]) @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) {
+type Comment @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) @key(name: "commentsByPost", fields: ["postID"]) {
+  id: ID!
+  content: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  userID: ID!
+  postID: ID!
+  user: User @connection(fields: ["userID"])
+  post: Post @connection(fields: ["postID"])
+}
+
+type PostVote @model @key(name: "votesByPost", fields: ["postID"]) @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) {
   id: ID!
   userID: ID!
   postID: ID!
-  user: User! @connection(fields: ["userID"])
-  post: Post! @connection(fields: ["postID"])
+  post: Post @connection(fields: ["postID"])
+  createdAt: AWSDateTime!
 }
   
