@@ -17,7 +17,7 @@ type Post @model @auth(rules: [{allow: owner}, {allow: private, operations: [rea
   lastActivityAt: AWSDateTime!
   voteCount: Int!
   userID: ID!
-  user: User @connection(fields: ["userId"])
+  user: User @connection(fields: ["userID"])
   comments: [Comment] @connection(keyName: "commentsByPost", fields: ["id"])
   votes: [PostVote] @connection(keyName: "votesByPost", fields: ["id"])
 }
