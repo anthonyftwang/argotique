@@ -1,4 +1,4 @@
-type User @model @auth(rules: [{allow: private, provider: iam}]) {
+type User @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) {
   id: ID!
   name: String!
   email: String!
@@ -8,7 +8,7 @@ type User @model @auth(rules: [{allow: private, provider: iam}]) {
   VotesFor: [UserPost] @connection(keyName: "byUser", fields: ["id"])
 }
 
-type Comment @model @auth(rules: [{allow: owner}, {allow: private, provider: iam, operations: [read]}, {allow: public, provider: iam, operations: [read]}]) @key(name: "byPost", fields: ["postID"]) {
+type Comment @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) @key(name: "byPost", fields: ["postID"]) {
   id: ID!
   content: String!
   createdAt: AWSDateTime!
@@ -17,7 +17,7 @@ type Comment @model @auth(rules: [{allow: owner}, {allow: private, provider: iam
   postID: ID!
 }
 
-type Post @model @auth(rules: [{allow: owner}, {allow: private, provider: iam, operations: [read]}, {allow: public, provider: iam, operations: [read]}]) @key(name: "byUser", fields: ["userID"]) {
+type Post @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) @key(name: "byUser", fields: ["userID"]) {
   id: ID!
   title: String!
   subtitle: String!
@@ -31,7 +31,7 @@ type Post @model @auth(rules: [{allow: owner}, {allow: private, provider: iam, o
   VotedBy: [UserPost] @connection(keyName: "byPost", fields: ["id"])
 }
 
-type UserPost @model(queries: null) @key(name: "byUser", fields: ["userID", "postID"]) @key(name: "byPost", fields: ["postID", "userID"]) @auth(rules: [{allow: owner}, {allow: private, provider: iam, operations: [read]}, {allow: public, provider: iam, operations: [read]}]) {
+type UserPost @model(queries: null) @key(name: "byUser", fields: ["userID", "postID"]) @key(name: "byPost", fields: ["postID", "userID"]) @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) {
   id: ID!
   userID: ID!
   postID: ID!

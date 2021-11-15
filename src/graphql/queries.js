@@ -9,11 +9,9 @@ export const getUser = /* GraphQL */ `
       email
       bio
       joinedAt
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      owner
       UserPosts {
         items {
           id
@@ -25,28 +23,20 @@ export const getUser = /* GraphQL */ `
           lastActivityAt
           votes
           userID
-          _version
-          _deleted
-          _lastChangedAt
           owner
         }
         nextToken
-        startedAt
       }
       VotesFor {
         items {
           id
           userID
           postID
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
           owner
         }
         nextToken
-        startedAt
       }
     }
   }
@@ -64,60 +54,17 @@ export const listUsers = /* GraphQL */ `
         email
         bio
         joinedAt
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
+        owner
         UserPosts {
           nextToken
-          startedAt
         }
         VotesFor {
           nextToken
-          startedAt
         }
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncUsers = /* GraphQL */ `
-  query SyncUsers(
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncUsers(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        name
-        email
-        bio
-        joinedAt
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        UserPosts {
-          nextToken
-          startedAt
-        }
-        VotesFor {
-          nextToken
-          startedAt
-        }
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -130,9 +77,6 @@ export const getComment = /* GraphQL */ `
       updatedAt
       votes
       postID
-      _version
-      _deleted
-      _lastChangedAt
       owner
     }
   }
@@ -151,43 +95,9 @@ export const listComments = /* GraphQL */ `
         updatedAt
         votes
         postID
-        _version
-        _deleted
-        _lastChangedAt
         owner
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncComments = /* GraphQL */ `
-  query SyncComments(
-    $filter: ModelCommentFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncComments(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        content
-        createdAt
-        updatedAt
-        votes
-        postID
-        _version
-        _deleted
-        _lastChangedAt
-        owner
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -203,9 +113,6 @@ export const getPost = /* GraphQL */ `
       lastActivityAt
       votes
       userID
-      _version
-      _deleted
-      _lastChangedAt
       PostComments {
         items {
           id
@@ -214,13 +121,9 @@ export const getPost = /* GraphQL */ `
           updatedAt
           votes
           postID
-          _version
-          _deleted
-          _lastChangedAt
           owner
         }
         nextToken
-        startedAt
       }
       owner
       VotedBy {
@@ -228,15 +131,11 @@ export const getPost = /* GraphQL */ `
           id
           userID
           postID
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
           owner
         }
         nextToken
-        startedAt
       }
     }
   }
@@ -258,118 +157,15 @@ export const listPosts = /* GraphQL */ `
         lastActivityAt
         votes
         userID
-        _version
-        _deleted
-        _lastChangedAt
         PostComments {
           nextToken
-          startedAt
         }
         owner
         VotedBy {
           nextToken
-          startedAt
         }
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncPosts = /* GraphQL */ `
-  query SyncPosts(
-    $filter: ModelPostFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncPosts(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        title
-        subtitle
-        content
-        createdAt
-        updatedAt
-        lastActivityAt
-        votes
-        userID
-        _version
-        _deleted
-        _lastChangedAt
-        PostComments {
-          nextToken
-          startedAt
-        }
-        owner
-        VotedBy {
-          nextToken
-          startedAt
-        }
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncUserPosts = /* GraphQL */ `
-  query SyncUserPosts(
-    $filter: ModelUserPostFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncUserPosts(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        userID
-        postID
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        user {
-          id
-          name
-          email
-          bio
-          joinedAt
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        post {
-          id
-          title
-          subtitle
-          content
-          createdAt
-          updatedAt
-          lastActivityAt
-          votes
-          userID
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-        owner
-      }
-      nextToken
-      startedAt
     }
   }
 `;

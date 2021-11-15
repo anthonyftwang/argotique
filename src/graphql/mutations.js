@@ -12,11 +12,9 @@ export const createUser = /* GraphQL */ `
       email
       bio
       joinedAt
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      owner
       UserPosts {
         items {
           id
@@ -28,28 +26,20 @@ export const createUser = /* GraphQL */ `
           lastActivityAt
           votes
           userID
-          _version
-          _deleted
-          _lastChangedAt
           owner
         }
         nextToken
-        startedAt
       }
       VotesFor {
         items {
           id
           userID
           postID
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
           owner
         }
         nextToken
-        startedAt
       }
     }
   }
@@ -65,11 +55,9 @@ export const updateUser = /* GraphQL */ `
       email
       bio
       joinedAt
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      owner
       UserPosts {
         items {
           id
@@ -81,28 +69,20 @@ export const updateUser = /* GraphQL */ `
           lastActivityAt
           votes
           userID
-          _version
-          _deleted
-          _lastChangedAt
           owner
         }
         nextToken
-        startedAt
       }
       VotesFor {
         items {
           id
           userID
           postID
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
           owner
         }
         nextToken
-        startedAt
       }
     }
   }
@@ -118,11 +98,9 @@ export const deleteUser = /* GraphQL */ `
       email
       bio
       joinedAt
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      owner
       UserPosts {
         items {
           id
@@ -134,28 +112,20 @@ export const deleteUser = /* GraphQL */ `
           lastActivityAt
           votes
           userID
-          _version
-          _deleted
-          _lastChangedAt
           owner
         }
         nextToken
-        startedAt
       }
       VotesFor {
         items {
           id
           userID
           postID
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
           owner
         }
         nextToken
-        startedAt
       }
     }
   }
@@ -172,9 +142,6 @@ export const createComment = /* GraphQL */ `
       updatedAt
       votes
       postID
-      _version
-      _deleted
-      _lastChangedAt
       owner
     }
   }
@@ -191,9 +158,6 @@ export const updateComment = /* GraphQL */ `
       updatedAt
       votes
       postID
-      _version
-      _deleted
-      _lastChangedAt
       owner
     }
   }
@@ -210,9 +174,6 @@ export const deleteComment = /* GraphQL */ `
       updatedAt
       votes
       postID
-      _version
-      _deleted
-      _lastChangedAt
       owner
     }
   }
@@ -232,9 +193,6 @@ export const createPost = /* GraphQL */ `
       lastActivityAt
       votes
       userID
-      _version
-      _deleted
-      _lastChangedAt
       PostComments {
         items {
           id
@@ -243,13 +201,9 @@ export const createPost = /* GraphQL */ `
           updatedAt
           votes
           postID
-          _version
-          _deleted
-          _lastChangedAt
           owner
         }
         nextToken
-        startedAt
       }
       owner
       VotedBy {
@@ -257,15 +211,11 @@ export const createPost = /* GraphQL */ `
           id
           userID
           postID
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
           owner
         }
         nextToken
-        startedAt
       }
     }
   }
@@ -285,9 +235,6 @@ export const updatePost = /* GraphQL */ `
       lastActivityAt
       votes
       userID
-      _version
-      _deleted
-      _lastChangedAt
       PostComments {
         items {
           id
@@ -296,13 +243,9 @@ export const updatePost = /* GraphQL */ `
           updatedAt
           votes
           postID
-          _version
-          _deleted
-          _lastChangedAt
           owner
         }
         nextToken
-        startedAt
       }
       owner
       VotedBy {
@@ -310,15 +253,11 @@ export const updatePost = /* GraphQL */ `
           id
           userID
           postID
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
           owner
         }
         nextToken
-        startedAt
       }
     }
   }
@@ -338,9 +277,6 @@ export const deletePost = /* GraphQL */ `
       lastActivityAt
       votes
       userID
-      _version
-      _deleted
-      _lastChangedAt
       PostComments {
         items {
           id
@@ -349,13 +285,9 @@ export const deletePost = /* GraphQL */ `
           updatedAt
           votes
           postID
-          _version
-          _deleted
-          _lastChangedAt
           owner
         }
         nextToken
-        startedAt
       }
       owner
       VotedBy {
@@ -363,15 +295,11 @@ export const deletePost = /* GraphQL */ `
           id
           userID
           postID
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
           owner
         }
         nextToken
-        startedAt
       }
     }
   }
@@ -385,9 +313,6 @@ export const createUserPost = /* GraphQL */ `
       id
       userID
       postID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       user {
@@ -396,18 +321,14 @@ export const createUserPost = /* GraphQL */ `
         email
         bio
         joinedAt
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
+        owner
         UserPosts {
           nextToken
-          startedAt
         }
         VotesFor {
           nextToken
-          startedAt
         }
       }
       post {
@@ -420,17 +341,12 @@ export const createUserPost = /* GraphQL */ `
         lastActivityAt
         votes
         userID
-        _version
-        _deleted
-        _lastChangedAt
         PostComments {
           nextToken
-          startedAt
         }
         owner
         VotedBy {
           nextToken
-          startedAt
         }
       }
       owner
@@ -446,9 +362,6 @@ export const updateUserPost = /* GraphQL */ `
       id
       userID
       postID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       user {
@@ -457,18 +370,14 @@ export const updateUserPost = /* GraphQL */ `
         email
         bio
         joinedAt
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
+        owner
         UserPosts {
           nextToken
-          startedAt
         }
         VotesFor {
           nextToken
-          startedAt
         }
       }
       post {
@@ -481,17 +390,12 @@ export const updateUserPost = /* GraphQL */ `
         lastActivityAt
         votes
         userID
-        _version
-        _deleted
-        _lastChangedAt
         PostComments {
           nextToken
-          startedAt
         }
         owner
         VotedBy {
           nextToken
-          startedAt
         }
       }
       owner
@@ -507,9 +411,6 @@ export const deleteUserPost = /* GraphQL */ `
       id
       userID
       postID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       user {
@@ -518,18 +419,14 @@ export const deleteUserPost = /* GraphQL */ `
         email
         bio
         joinedAt
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
+        owner
         UserPosts {
           nextToken
-          startedAt
         }
         VotesFor {
           nextToken
-          startedAt
         }
       }
       post {
@@ -542,17 +439,12 @@ export const deleteUserPost = /* GraphQL */ `
         lastActivityAt
         votes
         userID
-        _version
-        _deleted
-        _lastChangedAt
         PostComments {
           nextToken
-          startedAt
         }
         owner
         VotedBy {
           nextToken
-          startedAt
         }
       }
       owner
