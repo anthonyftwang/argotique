@@ -1,0 +1,29 @@
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #0055a4;
+  color: #fff;
+}
+
+nav .appName {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+nav a {
+  color: #fff;
+  padding-bottom: 0.25rem;
+  text-decoration: none;
+}
+
+nav a:hover,
+nav a:focus {
+  color: #fff;
+  text-decoration: none;
+  outline: 0;
+  padding-bottom: 0.125rem;
+  border-bottom: 0.125rem solid #fff;
+}
