@@ -10,12 +10,12 @@ export const createUser = /* GraphQL */ `
       id
       name
       email
-      bio
       joinedAt
       createdAt
       updatedAt
       owner
-      UserPosts {
+      bio
+      posts {
         items {
           id
           title
@@ -24,19 +24,9 @@ export const createUser = /* GraphQL */ `
           createdAt
           updatedAt
           lastActivityAt
-          votes
+          voteCount
+          commentCount
           userID
-          owner
-        }
-        nextToken
-      }
-      VotesFor {
-        items {
-          id
-          userID
-          postID
-          createdAt
-          updatedAt
           owner
         }
         nextToken
@@ -53,12 +43,12 @@ export const updateUser = /* GraphQL */ `
       id
       name
       email
-      bio
       joinedAt
       createdAt
       updatedAt
       owner
-      UserPosts {
+      bio
+      posts {
         items {
           id
           title
@@ -67,19 +57,9 @@ export const updateUser = /* GraphQL */ `
           createdAt
           updatedAt
           lastActivityAt
-          votes
+          voteCount
+          commentCount
           userID
-          owner
-        }
-        nextToken
-      }
-      VotesFor {
-        items {
-          id
-          userID
-          postID
-          createdAt
-          updatedAt
           owner
         }
         nextToken
@@ -96,12 +76,12 @@ export const deleteUser = /* GraphQL */ `
       id
       name
       email
-      bio
       joinedAt
       createdAt
       updatedAt
       owner
-      UserPosts {
+      bio
+      posts {
         items {
           id
           title
@@ -110,71 +90,13 @@ export const deleteUser = /* GraphQL */ `
           createdAt
           updatedAt
           lastActivityAt
-          votes
+          voteCount
+          commentCount
           userID
           owner
         }
         nextToken
       }
-      VotesFor {
-        items {
-          id
-          userID
-          postID
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const createComment = /* GraphQL */ `
-  mutation CreateComment(
-    $input: CreateCommentInput!
-    $condition: ModelCommentConditionInput
-  ) {
-    createComment(input: $input, condition: $condition) {
-      id
-      content
-      createdAt
-      updatedAt
-      votes
-      postID
-      owner
-    }
-  }
-`;
-export const updateComment = /* GraphQL */ `
-  mutation UpdateComment(
-    $input: UpdateCommentInput!
-    $condition: ModelCommentConditionInput
-  ) {
-    updateComment(input: $input, condition: $condition) {
-      id
-      content
-      createdAt
-      updatedAt
-      votes
-      postID
-      owner
-    }
-  }
-`;
-export const deleteComment = /* GraphQL */ `
-  mutation DeleteComment(
-    $input: DeleteCommentInput!
-    $condition: ModelCommentConditionInput
-  ) {
-    deleteComment(input: $input, condition: $condition) {
-      id
-      content
-      createdAt
-      updatedAt
-      votes
-      postID
-      owner
     }
   }
 `;
@@ -191,22 +113,36 @@ export const createPost = /* GraphQL */ `
       createdAt
       updatedAt
       lastActivityAt
-      votes
+      voteCount
+      commentCount
       userID
-      PostComments {
+      user {
+        id
+        name
+        email
+        joinedAt
+        createdAt
+        updatedAt
+        owner
+        bio
+        posts {
+          nextToken
+        }
+      }
+      owner
+      comments {
         items {
           id
           content
           createdAt
           updatedAt
-          votes
+          userID
           postID
           owner
         }
         nextToken
       }
-      owner
-      VotedBy {
+      votes {
         items {
           id
           userID
@@ -233,22 +169,36 @@ export const updatePost = /* GraphQL */ `
       createdAt
       updatedAt
       lastActivityAt
-      votes
+      voteCount
+      commentCount
       userID
-      PostComments {
+      user {
+        id
+        name
+        email
+        joinedAt
+        createdAt
+        updatedAt
+        owner
+        bio
+        posts {
+          nextToken
+        }
+      }
+      owner
+      comments {
         items {
           id
           content
           createdAt
           updatedAt
-          votes
+          userID
           postID
           owner
         }
         nextToken
       }
-      owner
-      VotedBy {
+      votes {
         items {
           id
           userID
@@ -275,22 +225,36 @@ export const deletePost = /* GraphQL */ `
       createdAt
       updatedAt
       lastActivityAt
-      votes
+      voteCount
+      commentCount
       userID
-      PostComments {
+      user {
+        id
+        name
+        email
+        joinedAt
+        createdAt
+        updatedAt
+        owner
+        bio
+        posts {
+          nextToken
+        }
+      }
+      owner
+      comments {
         items {
           id
           content
           createdAt
           updatedAt
-          votes
+          userID
           postID
           owner
         }
         nextToken
       }
-      owner
-      VotedBy {
+      votes {
         items {
           id
           userID
@@ -304,30 +268,28 @@ export const deletePost = /* GraphQL */ `
     }
   }
 `;
-export const createUserPost = /* GraphQL */ `
-  mutation CreateUserPost(
-    $input: CreateUserPostInput!
-    $condition: ModelUserPostConditionInput
+export const createComment = /* GraphQL */ `
+  mutation CreateComment(
+    $input: CreateCommentInput!
+    $condition: ModelCommentConditionInput
   ) {
-    createUserPost(input: $input, condition: $condition) {
+    createComment(input: $input, condition: $condition) {
       id
-      userID
-      postID
+      content
       createdAt
       updatedAt
+      userID
+      postID
       user {
         id
         name
         email
-        bio
         joinedAt
         createdAt
         updatedAt
         owner
-        UserPosts {
-          nextToken
-        }
-        VotesFor {
+        bio
+        posts {
           nextToken
         }
       }
@@ -339,13 +301,24 @@ export const createUserPost = /* GraphQL */ `
         createdAt
         updatedAt
         lastActivityAt
-        votes
+        voteCount
+        commentCount
         userID
-        PostComments {
-          nextToken
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
         }
         owner
-        VotedBy {
+        comments {
+          nextToken
+        }
+        votes {
           nextToken
         }
       }
@@ -353,30 +326,28 @@ export const createUserPost = /* GraphQL */ `
     }
   }
 `;
-export const updateUserPost = /* GraphQL */ `
-  mutation UpdateUserPost(
-    $input: UpdateUserPostInput!
-    $condition: ModelUserPostConditionInput
+export const updateComment = /* GraphQL */ `
+  mutation UpdateComment(
+    $input: UpdateCommentInput!
+    $condition: ModelCommentConditionInput
   ) {
-    updateUserPost(input: $input, condition: $condition) {
+    updateComment(input: $input, condition: $condition) {
       id
-      userID
-      postID
+      content
       createdAt
       updatedAt
+      userID
+      postID
       user {
         id
         name
         email
-        bio
         joinedAt
         createdAt
         updatedAt
         owner
-        UserPosts {
-          nextToken
-        }
-        VotesFor {
+        bio
+        posts {
           nextToken
         }
       }
@@ -388,13 +359,24 @@ export const updateUserPost = /* GraphQL */ `
         createdAt
         updatedAt
         lastActivityAt
-        votes
+        voteCount
+        commentCount
         userID
-        PostComments {
-          nextToken
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
         }
         owner
-        VotedBy {
+        comments {
+          nextToken
+        }
+        votes {
           nextToken
         }
       }
@@ -402,30 +384,28 @@ export const updateUserPost = /* GraphQL */ `
     }
   }
 `;
-export const deleteUserPost = /* GraphQL */ `
-  mutation DeleteUserPost(
-    $input: DeleteUserPostInput!
-    $condition: ModelUserPostConditionInput
+export const deleteComment = /* GraphQL */ `
+  mutation DeleteComment(
+    $input: DeleteCommentInput!
+    $condition: ModelCommentConditionInput
   ) {
-    deleteUserPost(input: $input, condition: $condition) {
+    deleteComment(input: $input, condition: $condition) {
       id
-      userID
-      postID
+      content
       createdAt
       updatedAt
+      userID
+      postID
       user {
         id
         name
         email
-        bio
         joinedAt
         createdAt
         updatedAt
         owner
-        UserPosts {
-          nextToken
-        }
-        VotesFor {
+        bio
+        posts {
           nextToken
         }
       }
@@ -437,13 +417,156 @@ export const deleteUserPost = /* GraphQL */ `
         createdAt
         updatedAt
         lastActivityAt
-        votes
+        voteCount
+        commentCount
         userID
-        PostComments {
-          nextToken
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
         }
         owner
-        VotedBy {
+        comments {
+          nextToken
+        }
+        votes {
+          nextToken
+        }
+      }
+      owner
+    }
+  }
+`;
+export const createPostVote = /* GraphQL */ `
+  mutation CreatePostVote(
+    $input: CreatePostVoteInput!
+    $condition: ModelPostVoteConditionInput
+  ) {
+    createPostVote(input: $input, condition: $condition) {
+      id
+      userID
+      postID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        subtitle
+        content
+        createdAt
+        updatedAt
+        lastActivityAt
+        voteCount
+        commentCount
+        userID
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
+        }
+        owner
+        comments {
+          nextToken
+        }
+        votes {
+          nextToken
+        }
+      }
+      owner
+    }
+  }
+`;
+export const updatePostVote = /* GraphQL */ `
+  mutation UpdatePostVote(
+    $input: UpdatePostVoteInput!
+    $condition: ModelPostVoteConditionInput
+  ) {
+    updatePostVote(input: $input, condition: $condition) {
+      id
+      userID
+      postID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        subtitle
+        content
+        createdAt
+        updatedAt
+        lastActivityAt
+        voteCount
+        commentCount
+        userID
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
+        }
+        owner
+        comments {
+          nextToken
+        }
+        votes {
+          nextToken
+        }
+      }
+      owner
+    }
+  }
+`;
+export const deletePostVote = /* GraphQL */ `
+  mutation DeletePostVote(
+    $input: DeletePostVoteInput!
+    $condition: ModelPostVoteConditionInput
+  ) {
+    deletePostVote(input: $input, condition: $condition) {
+      id
+      userID
+      postID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        subtitle
+        content
+        createdAt
+        updatedAt
+        lastActivityAt
+        voteCount
+        commentCount
+        userID
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
+        }
+        owner
+        comments {
+          nextToken
+        }
+        votes {
           nextToken
         }
       }

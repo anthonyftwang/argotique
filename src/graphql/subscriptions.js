@@ -7,12 +7,12 @@ export const onCreateUser = /* GraphQL */ `
       id
       name
       email
-      bio
       joinedAt
       createdAt
       updatedAt
       owner
-      UserPosts {
+      bio
+      posts {
         items {
           id
           title
@@ -21,19 +21,9 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           updatedAt
           lastActivityAt
-          votes
+          voteCount
+          commentCount
           userID
-          owner
-        }
-        nextToken
-      }
-      VotesFor {
-        items {
-          id
-          userID
-          postID
-          createdAt
-          updatedAt
           owner
         }
         nextToken
@@ -47,12 +37,12 @@ export const onUpdateUser = /* GraphQL */ `
       id
       name
       email
-      bio
       joinedAt
       createdAt
       updatedAt
       owner
-      UserPosts {
+      bio
+      posts {
         items {
           id
           title
@@ -61,19 +51,9 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           updatedAt
           lastActivityAt
-          votes
+          voteCount
+          commentCount
           userID
-          owner
-        }
-        nextToken
-      }
-      VotesFor {
-        items {
-          id
-          userID
-          postID
-          createdAt
-          updatedAt
           owner
         }
         nextToken
@@ -87,12 +67,12 @@ export const onDeleteUser = /* GraphQL */ `
       id
       name
       email
-      bio
       joinedAt
       createdAt
       updatedAt
       owner
-      UserPosts {
+      bio
+      posts {
         items {
           id
           title
@@ -101,62 +81,13 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           updatedAt
           lastActivityAt
-          votes
+          voteCount
+          commentCount
           userID
           owner
         }
         nextToken
       }
-      VotesFor {
-        items {
-          id
-          userID
-          postID
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const onCreateComment = /* GraphQL */ `
-  subscription OnCreateComment {
-    onCreateComment {
-      id
-      content
-      createdAt
-      updatedAt
-      votes
-      postID
-      owner
-    }
-  }
-`;
-export const onUpdateComment = /* GraphQL */ `
-  subscription OnUpdateComment {
-    onUpdateComment {
-      id
-      content
-      createdAt
-      updatedAt
-      votes
-      postID
-      owner
-    }
-  }
-`;
-export const onDeleteComment = /* GraphQL */ `
-  subscription OnDeleteComment {
-    onDeleteComment {
-      id
-      content
-      createdAt
-      updatedAt
-      votes
-      postID
-      owner
     }
   }
 `;
@@ -170,22 +101,36 @@ export const onCreatePost = /* GraphQL */ `
       createdAt
       updatedAt
       lastActivityAt
-      votes
+      voteCount
+      commentCount
       userID
-      PostComments {
+      user {
+        id
+        name
+        email
+        joinedAt
+        createdAt
+        updatedAt
+        owner
+        bio
+        posts {
+          nextToken
+        }
+      }
+      owner
+      comments {
         items {
           id
           content
           createdAt
           updatedAt
-          votes
+          userID
           postID
           owner
         }
         nextToken
       }
-      owner
-      VotedBy {
+      votes {
         items {
           id
           userID
@@ -209,22 +154,36 @@ export const onUpdatePost = /* GraphQL */ `
       createdAt
       updatedAt
       lastActivityAt
-      votes
+      voteCount
+      commentCount
       userID
-      PostComments {
+      user {
+        id
+        name
+        email
+        joinedAt
+        createdAt
+        updatedAt
+        owner
+        bio
+        posts {
+          nextToken
+        }
+      }
+      owner
+      comments {
         items {
           id
           content
           createdAt
           updatedAt
-          votes
+          userID
           postID
           owner
         }
         nextToken
       }
-      owner
-      VotedBy {
+      votes {
         items {
           id
           userID
@@ -248,22 +207,36 @@ export const onDeletePost = /* GraphQL */ `
       createdAt
       updatedAt
       lastActivityAt
-      votes
+      voteCount
+      commentCount
       userID
-      PostComments {
+      user {
+        id
+        name
+        email
+        joinedAt
+        createdAt
+        updatedAt
+        owner
+        bio
+        posts {
+          nextToken
+        }
+      }
+      owner
+      comments {
         items {
           id
           content
           createdAt
           updatedAt
-          votes
+          userID
           postID
           owner
         }
         nextToken
       }
-      owner
-      VotedBy {
+      votes {
         items {
           id
           userID
@@ -277,27 +250,25 @@ export const onDeletePost = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUserPost = /* GraphQL */ `
-  subscription OnCreateUserPost {
-    onCreateUserPost {
+export const onCreateComment = /* GraphQL */ `
+  subscription OnCreateComment {
+    onCreateComment {
       id
-      userID
-      postID
+      content
       createdAt
       updatedAt
+      userID
+      postID
       user {
         id
         name
         email
-        bio
         joinedAt
         createdAt
         updatedAt
         owner
-        UserPosts {
-          nextToken
-        }
-        VotesFor {
+        bio
+        posts {
           nextToken
         }
       }
@@ -309,13 +280,24 @@ export const onCreateUserPost = /* GraphQL */ `
         createdAt
         updatedAt
         lastActivityAt
-        votes
+        voteCount
+        commentCount
         userID
-        PostComments {
-          nextToken
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
         }
         owner
-        VotedBy {
+        comments {
+          nextToken
+        }
+        votes {
           nextToken
         }
       }
@@ -323,27 +305,25 @@ export const onCreateUserPost = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateUserPost = /* GraphQL */ `
-  subscription OnUpdateUserPost {
-    onUpdateUserPost {
+export const onUpdateComment = /* GraphQL */ `
+  subscription OnUpdateComment {
+    onUpdateComment {
       id
-      userID
-      postID
+      content
       createdAt
       updatedAt
+      userID
+      postID
       user {
         id
         name
         email
-        bio
         joinedAt
         createdAt
         updatedAt
         owner
-        UserPosts {
-          nextToken
-        }
-        VotesFor {
+        bio
+        posts {
           nextToken
         }
       }
@@ -355,13 +335,24 @@ export const onUpdateUserPost = /* GraphQL */ `
         createdAt
         updatedAt
         lastActivityAt
-        votes
+        voteCount
+        commentCount
         userID
-        PostComments {
-          nextToken
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
         }
         owner
-        VotedBy {
+        comments {
+          nextToken
+        }
+        votes {
           nextToken
         }
       }
@@ -369,27 +360,25 @@ export const onUpdateUserPost = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteUserPost = /* GraphQL */ `
-  subscription OnDeleteUserPost {
-    onDeleteUserPost {
+export const onDeleteComment = /* GraphQL */ `
+  subscription OnDeleteComment {
+    onDeleteComment {
       id
-      userID
-      postID
+      content
       createdAt
       updatedAt
+      userID
+      postID
       user {
         id
         name
         email
-        bio
         joinedAt
         createdAt
         updatedAt
         owner
-        UserPosts {
-          nextToken
-        }
-        VotesFor {
+        bio
+        posts {
           nextToken
         }
       }
@@ -401,13 +390,147 @@ export const onDeleteUserPost = /* GraphQL */ `
         createdAt
         updatedAt
         lastActivityAt
-        votes
+        voteCount
+        commentCount
         userID
-        PostComments {
-          nextToken
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
         }
         owner
-        VotedBy {
+        comments {
+          nextToken
+        }
+        votes {
+          nextToken
+        }
+      }
+      owner
+    }
+  }
+`;
+export const onCreatePostVote = /* GraphQL */ `
+  subscription OnCreatePostVote {
+    onCreatePostVote {
+      id
+      userID
+      postID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        subtitle
+        content
+        createdAt
+        updatedAt
+        lastActivityAt
+        voteCount
+        commentCount
+        userID
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
+        }
+        owner
+        comments {
+          nextToken
+        }
+        votes {
+          nextToken
+        }
+      }
+      owner
+    }
+  }
+`;
+export const onUpdatePostVote = /* GraphQL */ `
+  subscription OnUpdatePostVote {
+    onUpdatePostVote {
+      id
+      userID
+      postID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        subtitle
+        content
+        createdAt
+        updatedAt
+        lastActivityAt
+        voteCount
+        commentCount
+        userID
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
+        }
+        owner
+        comments {
+          nextToken
+        }
+        votes {
+          nextToken
+        }
+      }
+      owner
+    }
+  }
+`;
+export const onDeletePostVote = /* GraphQL */ `
+  subscription OnDeletePostVote {
+    onDeletePostVote {
+      id
+      userID
+      postID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        subtitle
+        content
+        createdAt
+        updatedAt
+        lastActivityAt
+        voteCount
+        commentCount
+        userID
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
+        }
+        owner
+        comments {
+          nextToken
+        }
+        votes {
           nextToken
         }
       }

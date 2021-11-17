@@ -7,12 +7,12 @@ export const getUser = /* GraphQL */ `
       id
       name
       email
-      bio
       joinedAt
       createdAt
       updatedAt
       owner
-      UserPosts {
+      bio
+      posts {
         items {
           id
           title
@@ -21,19 +21,9 @@ export const getUser = /* GraphQL */ `
           createdAt
           updatedAt
           lastActivityAt
-          votes
+          voteCount
+          commentCount
           userID
-          owner
-        }
-        nextToken
-      }
-      VotesFor {
-        items {
-          id
-          userID
-          postID
-          createdAt
-          updatedAt
           owner
         }
         nextToken
@@ -43,59 +33,31 @@ export const getUser = /* GraphQL */ `
 `;
 export const listUsers = /* GraphQL */ `
   query ListUsers(
+    $id: ID
     $filter: ModelUserFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listUsers(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         name
         email
-        bio
         joinedAt
         createdAt
         updatedAt
         owner
-        UserPosts {
+        bio
+        posts {
           nextToken
         }
-        VotesFor {
-          nextToken
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const getComment = /* GraphQL */ `
-  query GetComment($id: ID!) {
-    getComment(id: $id) {
-      id
-      content
-      createdAt
-      updatedAt
-      votes
-      postID
-      owner
-    }
-  }
-`;
-export const listComments = /* GraphQL */ `
-  query ListComments(
-    $filter: ModelCommentFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        content
-        createdAt
-        updatedAt
-        votes
-        postID
-        owner
       }
       nextToken
     }
@@ -111,22 +73,36 @@ export const getPost = /* GraphQL */ `
       createdAt
       updatedAt
       lastActivityAt
-      votes
+      voteCount
+      commentCount
       userID
-      PostComments {
+      user {
+        id
+        name
+        email
+        joinedAt
+        createdAt
+        updatedAt
+        owner
+        bio
+        posts {
+          nextToken
+        }
+      }
+      owner
+      comments {
         items {
           id
           content
           createdAt
           updatedAt
-          votes
+          userID
           postID
           owner
         }
         nextToken
       }
-      owner
-      VotedBy {
+      votes {
         items {
           id
           userID
@@ -155,15 +131,197 @@ export const listPosts = /* GraphQL */ `
         createdAt
         updatedAt
         lastActivityAt
-        votes
+        voteCount
+        commentCount
         userID
-        PostComments {
-          nextToken
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
         }
         owner
-        VotedBy {
+        comments {
           nextToken
         }
+        votes {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getComment = /* GraphQL */ `
+  query GetComment($id: ID!) {
+    getComment(id: $id) {
+      id
+      content
+      createdAt
+      updatedAt
+      userID
+      postID
+      user {
+        id
+        name
+        email
+        joinedAt
+        createdAt
+        updatedAt
+        owner
+        bio
+        posts {
+          nextToken
+        }
+      }
+      post {
+        id
+        title
+        subtitle
+        content
+        createdAt
+        updatedAt
+        lastActivityAt
+        voteCount
+        commentCount
+        userID
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
+        }
+        owner
+        comments {
+          nextToken
+        }
+        votes {
+          nextToken
+        }
+      }
+      owner
+    }
+  }
+`;
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        content
+        createdAt
+        updatedAt
+        userID
+        postID
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
+        }
+        post {
+          id
+          title
+          subtitle
+          content
+          createdAt
+          updatedAt
+          lastActivityAt
+          voteCount
+          commentCount
+          userID
+          owner
+        }
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getPostVote = /* GraphQL */ `
+  query GetPostVote($id: ID!) {
+    getPostVote(id: $id) {
+      id
+      userID
+      postID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        subtitle
+        content
+        createdAt
+        updatedAt
+        lastActivityAt
+        voteCount
+        commentCount
+        userID
+        user {
+          id
+          name
+          email
+          joinedAt
+          createdAt
+          updatedAt
+          owner
+          bio
+        }
+        owner
+        comments {
+          nextToken
+        }
+        votes {
+          nextToken
+        }
+      }
+      owner
+    }
+  }
+`;
+export const listPostVotes = /* GraphQL */ `
+  query ListPostVotes(
+    $filter: ModelPostVoteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPostVotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        postID
+        createdAt
+        updatedAt
+        post {
+          id
+          title
+          subtitle
+          content
+          createdAt
+          updatedAt
+          lastActivityAt
+          voteCount
+          commentCount
+          userID
+          owner
+        }
+        owner
       }
       nextToken
     }
