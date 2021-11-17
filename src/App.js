@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
-  Redirect,
+  Navigate,
 } from 'react-router-dom';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { Nav } from './components/Nav.js';
@@ -18,20 +18,12 @@ function App() {
       <div>
         <Nav />
         <main>
-          <Switch>
-            <Route path="/post/:id">
-              <PostPage />
-            </Route>
-            <Route path="/user/:id">
-              <UserPage />
-            </Route>
-            <Route path="/">
-              <HomePage />
-            </Route>
-            <Route path="*">
-              <Redirect to="/" />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/post/:id" element={<PostPage />} />
+            <Route path="/user/:id" element={<UserPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="*" render={() => <Navigate to="/" />} />
+          </Routes>
         </main>
       </div>
     </Router>

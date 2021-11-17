@@ -1,0 +1,8 @@
+.userPage h2 {
+  margin-top: 2rem;
+}
+
+.userPage .postList,
+.userPage .commentList {
+  margin-left: 2rem;
+}

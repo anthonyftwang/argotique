@@ -5,7 +5,7 @@ import heart from 'react-useanimations/lib/heart';
 import { Card } from './Card';
 import './Post.css';
 
-// { // PROPS
+// { // PROPS (liked is handled by state and queried by this component itself)
 //   isPreview = false, // hide content field, report or edit/delete actions if applicable
 //   id,
 //   username,
@@ -41,12 +41,12 @@ export class Post extends React.Component {
             <Link to={`/user/${this.props.username}`}>{this.props.username}</Link>
           </span>
           <span className="contentAge">
-            {'·'}{this.props.contentAge}
+            {' · '}{this.props.contentAge}
           </span>
         </p>
         <p>
           {this.props.isPreview ? (
-            <div className="postContent">
+            <div className="postPreview">
               <h3 className="postTitle">
                 <Link to={`/post/${this.props.id}`}>{this.props.title}</Link>
               </h3>
