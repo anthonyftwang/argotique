@@ -6,12 +6,11 @@ export const onCreateUser = /* GraphQL */ `
     onCreateUser {
       id
       name
-      email
       joinedAt
+      bio
       createdAt
       updatedAt
       owner
-      bio
       posts {
         items {
           id
@@ -36,12 +35,11 @@ export const onUpdateUser = /* GraphQL */ `
     onUpdateUser {
       id
       name
-      email
       joinedAt
+      bio
       createdAt
       updatedAt
       owner
-      bio
       posts {
         items {
           id
@@ -66,12 +64,11 @@ export const onDeleteUser = /* GraphQL */ `
     onDeleteUser {
       id
       name
-      email
       joinedAt
+      bio
       createdAt
       updatedAt
       owner
-      bio
       posts {
         items {
           id
@@ -107,12 +104,11 @@ export const onCreatePost = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -160,12 +156,11 @@ export const onUpdatePost = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -213,12 +208,11 @@ export const onDeletePost = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -262,12 +256,11 @@ export const onCreateComment = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -286,12 +279,11 @@ export const onCreateComment = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -317,12 +309,11 @@ export const onUpdateComment = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -341,12 +332,11 @@ export const onUpdateComment = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -372,12 +362,11 @@ export const onDeleteComment = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -396,12 +385,11 @@ export const onDeleteComment = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -437,12 +425,11 @@ export const onCreatePostVote = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -478,12 +465,11 @@ export const onUpdatePostVote = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -519,12 +505,11 @@ export const onDeletePostVote = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {

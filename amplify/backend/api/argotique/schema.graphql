@@ -1,7 +1,6 @@
 type User @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) @key(fields: ["id"]) {
   id: ID!
   name: String!
-  email: String! @auth(rules: [{allow: owner}])
   joinedAt: AWSDateTime!
   bio: String
   posts: [Post] @connection(keyName: "postByUser", fields: ["id"])

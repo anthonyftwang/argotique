@@ -18,7 +18,7 @@
       "function": {
         "argotiqueAddNewUser": {
           "deploymentBucketName": "amplify-amplify8f2b05c820fa4-staging-32441-deployment",
-          "s3Key": "amplify-builds/argotiqueAddNewUser-7663356a54514f73512b-build.zip"
+          "s3Key": "amplify-builds/argotiqueAddNewUser-7772792b384845327367-build.zip"
         }
       },
       "storage": {

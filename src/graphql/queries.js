@@ -6,12 +6,11 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       name
-      email
       joinedAt
+      bio
       createdAt
       updatedAt
       owner
-      bio
       posts {
         items {
           id
@@ -49,12 +48,11 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -79,12 +77,11 @@ export const getPost = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -137,12 +134,11 @@ export const listPosts = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -168,12 +164,11 @@ export const getComment = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -192,12 +187,11 @@ export const getComment = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -228,12 +222,11 @@ export const listComments = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         post {
           id
@@ -276,12 +269,11 @@ export const getPostVote = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {

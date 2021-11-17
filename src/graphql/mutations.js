@@ -9,12 +9,11 @@ export const createUser = /* GraphQL */ `
     createUser(input: $input, condition: $condition) {
       id
       name
-      email
       joinedAt
+      bio
       createdAt
       updatedAt
       owner
-      bio
       posts {
         items {
           id
@@ -42,12 +41,11 @@ export const updateUser = /* GraphQL */ `
     updateUser(input: $input, condition: $condition) {
       id
       name
-      email
       joinedAt
+      bio
       createdAt
       updatedAt
       owner
-      bio
       posts {
         items {
           id
@@ -75,12 +73,11 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input, condition: $condition) {
       id
       name
-      email
       joinedAt
+      bio
       createdAt
       updatedAt
       owner
-      bio
       posts {
         items {
           id
@@ -119,12 +116,11 @@ export const createPost = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -175,12 +171,11 @@ export const updatePost = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -231,12 +226,11 @@ export const deletePost = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -283,12 +277,11 @@ export const createComment = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -307,12 +300,11 @@ export const createComment = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -341,12 +333,11 @@ export const updateComment = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -365,12 +356,11 @@ export const updateComment = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -399,12 +389,11 @@ export const deleteComment = /* GraphQL */ `
       user {
         id
         name
-        email
         joinedAt
+        bio
         createdAt
         updatedAt
         owner
-        bio
         posts {
           nextToken
         }
@@ -423,12 +412,11 @@ export const deleteComment = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -467,12 +455,11 @@ export const createPostVote = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -511,12 +498,11 @@ export const updatePostVote = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
@@ -555,12 +541,11 @@ export const deletePostVote = /* GraphQL */ `
         user {
           id
           name
-          email
           joinedAt
+          bio
           createdAt
           updatedAt
           owner
-          bio
         }
         owner
         comments {
