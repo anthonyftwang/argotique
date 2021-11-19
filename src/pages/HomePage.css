@@ -1,5 +1,6 @@
 .homePage h2 {
   margin-top: 2rem;
+  color: var(--argotique-primary-text);
 }
 
 .homePage .postList {
