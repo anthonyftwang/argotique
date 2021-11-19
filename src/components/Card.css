@@ -1,6 +1,6 @@
 .card {
-  background: #FFF;
-  border: 0.0625rem solid #CCC;
+  background: var(--argotique-white);
+  border: 0.0625rem solid var(--argotique-bg-tint);
   border-radius: 0.25rem;
   padding: 1rem;
   margin-bottom: 1rem;
