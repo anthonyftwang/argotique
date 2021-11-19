@@ -13,17 +13,17 @@ nav .appName {
   font-weight: bold;
 }
 
+nav .appLogo {
+  margin-right: 0.4rem;
+}
+
+nav .appBanner {
+ display:flex;
+ align-items: center;
+}
+
 nav a {
   color: #fff;
   padding-bottom: 0.25rem;
   text-decoration: none;
-}
-
-nav a:hover,
-nav a:focus {
-  color: #fff;
-  text-decoration: none;
-  outline: 0;
-  padding-bottom: 0.125rem;
-  border-bottom: 0.125rem solid #fff;
 }

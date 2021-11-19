@@ -6,7 +6,7 @@ type User @model @auth(rules: [{allow: owner}, {allow: private, operations: [rea
   posts: [Post] @connection(keyName: "postByUser", fields: ["id"])
 }
 
-type Post @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) @key(name: "postByUser", fields: ["userID"]) {
+type Post @model @auth(rules: [{allow: owner}, {allow: private, operations: [read, update]}, {allow: public, operations: [read]}]) @key(name: "postByUser", fields: ["userID"]) {
   id: ID!
   title: String!
   subtitle: String!
@@ -40,4 +40,3 @@ type PostVote @model @key(name: "votesByPost", fields: ["postID"]) @auth(rules: 
   post: Post @connection(fields: ["postID"])
   createdAt: AWSDateTime!
 }
-  

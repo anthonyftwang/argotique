@@ -1,15 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-
 import { API } from 'aws-amplify';
-import { getPost, listPosts } from '../graphql/queries';
+import Auth from '@aws-amplify/auth';
+import { listPostVotes, listPosts } from '../graphql/queries';
 import { createPost as createPostMutation, deletePost as deletePostMutation } from '../graphql/mutations';
-
-import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import { Post } from '../components/Post';
 import { Loading } from '../components/Loading';
-import { ErrorMessage } from '../components/ErrorMessage';
 import './HomePage.css';
 
 export const HomePage = () => {
@@ -20,8 +17,18 @@ export const HomePage = () => {
     }, []);
 
     async function fetchPosts() {
-        const apiData = await API.graphql({ query: listPosts });
-        setPosts(apiData.data.listPosts.items);
+        const postData = await API.graphql({ query: listPosts });
+        const user = await Auth.currentAuthenticatedUser();
+        const userFilter = {
+            userID: {
+                eq: user.attributes.sub
+            }
+        }
+        const likeData = await API.graphql({ query: listPostVotes, variables: { filter: userFilter } });
+        const posts = postData.data.listPosts.items.map(post => ({
+            ...post, isLiked: likeData.data.listPostVotes.items.some(like => like.postID === post.id)
+        }));
+        setPosts(posts);
     }
 
     return (
@@ -41,6 +48,7 @@ export const HomePage = () => {
                             voteCount={post.voteCount}
                             commentCount={post.commentCount}
                             contentAge={moment(post.lastActivityAt).fromNow()}
+                            isLiked={post.isLiked}
                         />
                     ))
                 ) : (

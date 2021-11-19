@@ -1,9 +1,21 @@
 .contentMeta {
     margin-top: 0;
-    font-style: italic;
+    margin-left: 3rem;
+    color: var(--argotique-secondary-text);
   }
   
   .postMetrics {
     margin: 0;
-    font-weight: bold;
+    margin-left: 3rem;
+    color: var(--argotique-primary-text);
+  }
+
+  .heartButton {
+    display: inline-block;
+    margin-bottom: -0.8rem;
+    margin-right: 0.5rem;
+  }
+
+  .postTitle {
+    display: inline-block;
   }
