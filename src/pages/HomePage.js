@@ -20,14 +20,13 @@ export const HomePage = () => {
   async function fetchPosts() {
     const postData = await API.graphql({ query: listPosts });
     const user = await Auth.currentAuthenticatedUser();
-    const userFilter = {
-      userID: {
-        eq: user.attributes.sub
-      }
-    }
     const likeData = await API.graphql({
       query: listPostVotes,
-      variables: { filter: userFilter }
+      variables: {
+        filter: {
+          userID: { eq: user.attributes.sub }
+        }
+      }
     });
     const posts = postData.data.listPosts.items.map(post => ({
       ...post,
