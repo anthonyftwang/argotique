@@ -1,4 +1,15 @@
-.contentMeta {
+.commentMeta {
   margin-top: 0;
-  font-style: italic;
+  margin-left: 1rem;
+  color: var(--argotique-secondary-text);
+}
+
+.commentMeta a:hover {
+  text-decoration: underline;
+}
+
+.commentText {
+  margin-block-end: 0.25rem;
+  margin-left: 1rem;
+  color: var(--argotique-primary-text);
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card } from '/.Card';
+import { Card } from './Card';
 import './Comment.css';
 
 export const Comment = ({
@@ -9,14 +9,14 @@ export const Comment = ({
   contentAge
 }) => (
   <Card>
-    <p className="contentMeta">
-      <span className="contentAuthor">
+    <p className="commentMeta">
+      <span className="commentAuthor">
         <Link to={`/user/${username}`}>{username}</Link>
       </span>
-      <span className="contentAge">
-        {"·"} {contentAge}
+      <span className="commentAge">
+        {" · "} {contentAge}
       </span>
     </p>
-    <p className="contentText">{content}</p>
+    <p className="commentText">{content}</p>
   </Card>
 )
