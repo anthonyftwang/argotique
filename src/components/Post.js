@@ -7,18 +7,21 @@ import { Link } from 'react-router-dom';
 import UseAnimations from 'react-useanimations';
 import heart from 'react-useanimations/lib/heart';
 import { Card } from './Card';
+import { ActionMenu } from './ActionMenu';
 import './Post.css';
 
-// { // PROPS (liked is handled by state and queried by this component itself)
-//   isPreview = false, // hide content field, report or edit/delete actions if applicable
+// { // PROPS
+//   isPreview, // hide content field, report or edit/delete actions
 //   id,
 //   username,
 //   title,
 //   subtitle,
 //   content,
-//   voteCount = 0,
-//   commentCount = 0,
-//   contentAge
+//   voteCount,
+//   commentCount,
+//   contentAge,
+//   isLiked,
+//   isOwnedByUser
 // }
 
 export class Post extends React.Component {
@@ -89,14 +92,19 @@ export class Post extends React.Component {
   render() {
     return(
       <Card>
-        <div className="contentMeta">
-          <span className="contentAuthor">
+        <div className="postMeta">
+          <span className="postAuthor">
             <Link to={`/user/${this.props.username}`}>{this.props.username}</Link>
           </span>
           {" · "}
-          <span className="contentAge">
+          <span className="postAge">
             {this.props.contentAge}
           </span>
+          {!this.props.isPreview &&
+            <span className="postActions">
+              <ActionMenu isOwnedByUser={this.props.isOwnedByUser} />
+            </span>
+          }
         </div>
         <div className="postTitleRow">
           <UseAnimations
@@ -116,7 +124,7 @@ export class Post extends React.Component {
         {!this.props.isPreview &&
           <div className="postContent">
             <h4 className="postSubtitle">{this.props.subtitle}</h4>
-            <p className="contentText">{this.props.content}</p>
+            <p className="postText">{this.props.content}</p>
           </div>
         }
         <div className="postMetrics">

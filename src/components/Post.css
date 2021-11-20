@@ -1,11 +1,15 @@
-.contentMeta {
+.postMeta {
   margin-top: 0;
   margin-left: 3rem;
   color: var(--argotique-secondary-text);
 }
 
-.contentMeta a:hover {
+.postMeta a:hover {
   text-decoration: underline;
+}
+
+.postActions {
+  float: right;
 }
 
 .heartButton {
