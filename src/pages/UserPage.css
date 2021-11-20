@@ -1,8 +1,8 @@
 .userPage h2 {
   margin-top: 2rem;
+  color: var(--argotique-primary-text);
 }
 
-.userPage .postList,
-.userPage .commentList {
+.userPage .postList {
   margin-left: 2rem;
 }
