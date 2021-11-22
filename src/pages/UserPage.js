@@ -11,8 +11,8 @@ import './UserPage.css';
 
 export const UserPage = () => {
   const [posts, setPosts] = useState([]);
-  const [owner, setOwner] = useState("User");
   const location = useLocation();
+  const [owner, setOwner] = useState(`${location.pathname.split("/").pop()}'s`);
 
   useEffect(() => {
     fetchPosts();
