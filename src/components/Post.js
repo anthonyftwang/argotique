@@ -115,8 +115,8 @@ export class Post extends React.Component {
               this.setLiked(!this.state.liked);
             }}
             size={40}
-            strokeColor={'var(--argotique-red)'}
-            pathCss={'fill:var(--argotique-red)'}
+            strokeColor={"var(--argotique-red)"}
+            pathCss={"fill:var(--argotique-red)"}
             animation={heart}
           />
           <h3 className="postTitle">{this.props.title}</h3>

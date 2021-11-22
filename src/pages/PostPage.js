@@ -120,7 +120,7 @@ export const PostPage = () => {
             }
           </div>
           <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleAlertClose}>
-            <Alert onClose={handleAlertClose} severity="success" sx={{ width: '100%' }}>
+            <Alert onClose={handleAlertClose} severity="success" sx={{ width: "100%" }}>
               Comment submitted!
             </Alert>
           </Snackbar>

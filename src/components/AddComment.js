@@ -15,7 +15,7 @@ export const AddComment = (props) => {
   // be called when the form is submitted
   const formik = useFormik({
     initialValues: {
-      comment: '',
+      comment: "",
     },
     validationSchema: Yup.object({
       comment: Yup.string()
