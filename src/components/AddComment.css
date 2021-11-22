@@ -1,0 +1,18 @@
+.commentForm {
+    display: flex;
+    margin-block: 0rem;
+}
+
+.commentSubmit {
+    float: right;
+}
+
+.commentFieldContainer {
+    flex-grow: 1;
+    padding-inline: 1rem;
+}
+
+.accordian {
+    margin-inline: -16px;
+    margin-block: 1rem;
+}
