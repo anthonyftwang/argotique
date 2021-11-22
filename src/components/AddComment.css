@@ -5,6 +5,7 @@
 
 .commentSubmit {
     float: right;
+    height: fit-content;
 }
 
 .commentFieldContainer {
@@ -15,4 +16,8 @@
 .accordian {
     margin-inline: -16px;
     margin-block: 1rem;
+}
+
+.commentError {
+    color: var(--argotique-red);
 }

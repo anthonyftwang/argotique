@@ -16,6 +16,9 @@ const theme = createTheme({
     secondary: {
       main: '#ef4135',
     },
+    error: {
+      main: '#ef4135',
+    },
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
     contrastThreshold: 3,

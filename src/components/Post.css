@@ -27,6 +27,7 @@
   margin-left: 3rem;
   margin-block-end: 2rem;
   color: var(--argotique-primary-text);
+  white-space: pre-line;
 }
 
 .postSubtitle {

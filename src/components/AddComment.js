@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import * as Yup from 'yup';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import Accordion from '@mui/material/Accordion';
@@ -17,6 +17,10 @@ export const AddComment = (props) => {
     initialValues: {
       comment: '',
     },
+    validationSchema: Yup.object({
+      comment: Yup.string()
+        .max(300, "Must be 300 characters or less")
+    }),
     onSubmit: values => {
       props.onSubmitHandler(values.comment);
       formik.resetForm();
@@ -50,9 +54,14 @@ export const AddComment = (props) => {
                     name="comment"
                     placeholder="Write a comment..."
                     fullWidth
+                    multiline
                     value={formik.values.comment}
                     onChange={formik.handleChange}
+                    error={formik.errors.comment}
                   />
+                  {formik.errors.comment ? (
+                    <div className="commentError">{formik.errors.comment}</div>
+                  ) : null}
                 </div>
                 <Button
                   className="commentSubmit"
