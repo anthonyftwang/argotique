@@ -6,7 +6,7 @@ import { updatePost, createPostVote, deletePostVote } from '../graphql/mutations
 import { Link } from 'react-router-dom';
 import UseAnimations from 'react-useanimations';
 import heart from 'react-useanimations/lib/heart';
-import { Card } from './Card';
+import { CardComponent as Card } from './Card';
 import { ActionMenu } from './ActionMenu';
 import './Post.css';
 

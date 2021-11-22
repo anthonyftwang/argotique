@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card } from './Card';
+import { CardComponent as Card } from './Card';
 import './Comment.css';
 
 export const Comment = ({

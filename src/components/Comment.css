@@ -9,7 +9,7 @@
 }
 
 .commentText {
-  margin-block-end: 0.25rem;
+  margin-block-end: -0.25rem;
   margin-left: 1rem;
   color: var(--argotique-primary-text);
 }
