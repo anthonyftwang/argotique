@@ -6,26 +6,16 @@ import { getPost, listComments } from '../graphql/queries';
 import { updatePost, deletePost, createComment as createCommentMutation } from '../graphql/mutations';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import { Post } from '../components/Post';
 import { Comment } from '../components/Comment';
 import { AddComment } from '../components/AddComment';
 import { Loading } from '../components/Loading';
 import './PostPage.css';
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-export const PostPage = () => {
+export const PostPage = (props) => {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
   const location  = useLocation();
-  const [successText, setSuccessText] = useState(
-    // initially load snackbar if given state with non-null text
-    location.state ? location.state.successText : ""
-  );
 
   useEffect(() => {
     fetchPostAndComments();
@@ -81,15 +71,8 @@ export const PostPage = () => {
       variables: {input: updatedPostParams }
     });
     fetchPostAndComments();
-    setSuccessText("Comment submitted!");
+    props.successSnackbarHandler("Comment submitted!");
   }
-
-  const handleAlertClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSuccessText("");
-  };
 
   return (
     <div className="postPageContainer">
@@ -123,11 +106,6 @@ export const PostPage = () => {
               ))
             }
           </div>
-          <Snackbar open={successText} autoHideDuration={6000} onClose={handleAlertClose}>
-            <Alert onClose={handleAlertClose} severity="success" sx={{ width: "100%" }}>
-              {successText}
-            </Alert>
-          </Snackbar>
         </div>
       ) : (
         <Loading />
