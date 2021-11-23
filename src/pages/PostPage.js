@@ -21,8 +21,11 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export const PostPage = () => {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
-  const [alertOpen, setAlertOpen] = useState();
-  const location = useLocation();
+  const location  = useLocation();
+  const [successText, setSuccessText] = useState(
+    // initially load snackbar if given state with non-null text
+    location.state ? location.state.successText : ""
+  );
 
   useEffect(() => {
     fetchPostAndComments();
@@ -78,14 +81,14 @@ export const PostPage = () => {
       variables: {input: updatedPostParams }
     });
     fetchPostAndComments();
-    setAlertOpen(true);
+    setSuccessText("Comment submitted!");
   }
 
   const handleAlertClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setAlertOpen(false);
+    setSuccessText("");
   };
 
   return (
@@ -112,6 +115,7 @@ export const PostPage = () => {
               comments.map(comment => (
                 <Comment
                   className="postComment"
+                  key={comment.id}
                   content={comment.content}
                   username={comment.user.name}
                   contentAge={moment(comment.createdAt).fromNow()}
@@ -119,9 +123,9 @@ export const PostPage = () => {
               ))
             }
           </div>
-          <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleAlertClose}>
+          <Snackbar open={successText} autoHideDuration={6000} onClose={handleAlertClose}>
             <Alert onClose={handleAlertClose} severity="success" sx={{ width: "100%" }}>
-              Comment submitted!
+              {successText}
             </Alert>
           </Snackbar>
         </div>
