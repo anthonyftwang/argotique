@@ -48,7 +48,9 @@ export const PostPage = (props) => {
         }
       })
       setPost(post);
-      setComments(commentData.data.listComments.items);
+      const comments = commentData.data.listComments.items
+        .sort((a,b) => b.createdAt.localeCompare(a.createdAt));
+      setComments(comments);
     }
   }
 
@@ -136,7 +138,7 @@ export const PostPage = (props) => {
             content={post.content}
             voteCount={post.voteCount}
             commentCount={post.commentCount}
-            contentAge={moment(post.lastActivityAt).fromNow()}
+            contentAge={moment(post.createdAt).fromNow()}
             isLiked={post.isLiked}
             isOwnedByUser={post.isOwnedByUser}
             editPostHandler={showEditDialog}

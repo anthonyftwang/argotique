@@ -37,12 +37,27 @@ export const HomePage = () => {
       ...post,
       isLiked: likeData.data.listPostVotes.items.some(like => like.postID === post.id)
     }));
+    posts.sort((a,b) => (b.voteCount - a.voteCount)
+      || b.lastActivityAt.localeCompare(a.lastActivityAt));
     setPosts(posts);
   }
 
   const sortPosts = (method) => {
     setSort(method);
-    // TODO - implement temporary client-side sorting
+    // TODO - pagination with server-side sorting
+    switch (method) {
+      case "Newest":
+        posts.sort((a,b) => b.createdAt.localeCompare(a.createdAt));
+        break;
+      case "Active":
+        posts.sort((a,b) => b.lastActivityAt.localeCompare(a.lastActivityAt));
+        break;
+      case "Top":
+      default:
+        posts.sort((a,b) => (b.voteCount - a.voteCount)
+          || b.lastActivityAt.localeCompare(a.lastActivityAt));
+    }
+    setPosts(posts);
   }
 
   const showAddDialog = () => {
@@ -97,7 +112,7 @@ export const HomePage = () => {
                 content={post.content}
                 voteCount={post.voteCount}
                 commentCount={post.commentCount}
-                contentAge={moment(post.lastActivityAt).fromNow()}
+                contentAge={moment(post.createdAt).fromNow()}
                 isLiked={post.isLiked}
               />
             </Link>

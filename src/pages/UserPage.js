@@ -79,7 +79,7 @@ export const UserPage = () => {
                 content={post.content}
                 voteCount={post.voteCount}
                 commentCount={post.commentCount}
-                contentAge={moment(post.lastActivityAt).fromNow()}
+                contentAge={moment(post.createdAt).fromNow()}
                 isLiked={post.isLiked}
               />
             </Link>
