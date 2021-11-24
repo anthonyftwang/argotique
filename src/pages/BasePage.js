@@ -10,7 +10,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 export const BasePage = (props) => {
   const location  = useLocation();
-  console.log(location);
   const [successText, setSuccessText] = useState(
     // initially load snackbar if given state with non-null text
     location.state ? location.state.successText : ""
@@ -30,7 +29,7 @@ export const BasePage = (props) => {
   return(
     <div className="pageContents">
       {React.cloneElement(props.child, { successSnackbarHandler: openSnackbar })}
-      <Snackbar open={successText} autoHideDuration={6000} onClose={handleAlertClose}>
+      <Snackbar open={successText ? true : false} autoHideDuration={6000} onClose={handleAlertClose}>
         <Alert onClose={handleAlertClose} severity="success" sx={{ width: "100%" }}>
           {successText}
         </Alert>
