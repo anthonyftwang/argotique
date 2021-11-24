@@ -102,7 +102,11 @@ export class Post extends React.Component {
           </span>
           {!this.props.isPreview &&
             <span className="postActions">
-              <ActionMenu isOwnedByUser={this.props.isOwnedByUser} />
+              <ActionMenu
+                isOwnedByUser={this.props.isOwnedByUser}
+                editPostHandler={this.props.editPostHandler}
+                deletePostHandler={this.props.deletePostHandler}
+              />
             </span>
           }
         </div>

@@ -26,14 +26,13 @@ export const ActionMenu = (props) => {
   };
 
   const handleEdit = () => {
-    console.log("editing...");
     handleClose();
-    // navigate(-1);
+    props.editPostHandler();
   };
 
   const handleDelete = () => {
-    console.log("deleting...");
     handleClose();
+    props.deletePostHandler();
     // navigate(-1);
   };
 

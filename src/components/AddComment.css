@@ -1,23 +1,23 @@
 .commentForm {
-    display: flex;
-    margin-block: 0rem;
+  display: flex;
+  margin-block: 0rem;
 }
 
 .commentSubmit {
-    float: right;
-    height: fit-content;
+  float: right;
+  height: fit-content;
 }
 
 .commentFieldContainer {
-    flex-grow: 1;
-    padding-inline: 1rem;
+  flex-grow: 1;
+  padding-inline: 1rem;
 }
 
 .accordian {
-    margin-inline: -16px;
-    margin-block: 1rem;
+  margin-inline: -16px;
+  margin-block: 1rem;
 }
 
 .commentError {
-    color: var(--argotique-red);
+  color: var(--argotique-red);
 }

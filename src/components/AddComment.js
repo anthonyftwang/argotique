@@ -11,8 +11,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './AddComment.css';
 
 export const AddComment = (props) => {
-  // Pass the useFormik() hook initial form values and a submit function that will
-  // be called when the form is submitted
   const formik = useFormik({
     initialValues: {
       comment: "",
@@ -68,7 +66,8 @@ export const AddComment = (props) => {
                   color="primary"
                   variant="contained"
                   type="submit"
-                  disabled={!(formik.isValid && formik.dirty)}>
+                  disabled={!(formik.isValid && formik.dirty)}
+                >
                   Submit
                 </Button>
               </div>

@@ -3,19 +3,24 @@ import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
 import { getPost, listComments } from '../graphql/queries';
-import { updatePost, deletePost, createComment as createCommentMutation } from '../graphql/mutations';
-import { useLocation } from 'react-router-dom';
+import { updatePost as updatePostMutation, deletePost as deletePostMutation, createComment as createCommentMutation } from '../graphql/mutations';
+import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { Post } from '../components/Post';
 import { Comment } from '../components/Comment';
 import { AddComment } from '../components/AddComment';
 import { Loading } from '../components/Loading';
+import { PostDialog } from '../components/PostDialog';
+import { DeleteDialog } from '../components/DeleteDialog';
 import './PostPage.css';
 
 export const PostPage = (props) => {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
+  const [editDialogVisible, setEditDialogVisible] = useState();
+  const [deleteDialogVisible, setDeleteDialogVisible] = useState();
   const location  = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPostAndComments();
@@ -48,8 +53,8 @@ export const PostPage = (props) => {
   }
 
   async function createComment(comment) {
-    let date = new Date();
-    let user = await Auth.currentAuthenticatedUser();
+    const date = new Date();
+    const user = await Auth.currentAuthenticatedUser();
     const params = {
       content: comment,
       createdAt: date.toISOString(),
@@ -61,17 +66,60 @@ export const PostPage = (props) => {
       query: createCommentMutation,
       variables: { input: params }
     });
-    // also update comment count
+    // also update comment count and activity
     const updatedPostParams = {
       id: post.id,
-      commentCount: post.commentCount + 1
+      commentCount: post.commentCount + 1,
+      lastActivityAt: date.toISOString()
     };
     await API.graphql({
-      query: updatePost,
+      query: updatePostMutation,
       variables: {input: updatedPostParams }
     });
     fetchPostAndComments();
     props.successSnackbarHandler("Comment submitted!");
+  }
+
+  const showEditDialog = () => {
+    setEditDialogVisible(true);
+  }
+
+  const hideEditDialog = () => {
+    setEditDialogVisible(false);
+  }
+
+  const showDeleteDialog = () => {
+    setDeleteDialogVisible(true);
+  }
+
+  const hideDeleteDialog = () => {
+    setDeleteDialogVisible(false);
+  }
+
+  async function updatePost(values) {
+    const date = new Date();
+    const updatedPostParams = {
+      id: post.id,
+      title: values.title,
+      subtitle: values.subtitle,
+      content: values.content,
+      updatedAt: date.toISOString(),
+      lastActivityAt: date.toISOString()
+    };
+    await API.graphql({
+      query: updatePostMutation,
+      variables: {input: updatedPostParams }
+    });
+    fetchPostAndComments();
+    props.successSnackbarHandler("Post updated!");
+  }
+
+  async function deletePost() {
+    await API.graphql({
+      query: deletePostMutation,
+      variables: { input: { id: post.id } }
+    });
+    navigate("/", { state: { successText: "Post deleted!" } });
   }
 
   return (
@@ -91,6 +139,8 @@ export const PostPage = (props) => {
             contentAge={moment(post.lastActivityAt).fromNow()}
             isLiked={post.isLiked}
             isOwnedByUser={post.isOwnedByUser}
+            editPostHandler={showEditDialog}
+            deletePostHandler={showDeleteDialog}
           />
           <div className="commentsList">
             <AddComment onSubmitHandler={createComment} />
@@ -106,6 +156,20 @@ export const PostPage = (props) => {
               ))
             }
           </div>
+          <PostDialog
+            open={editDialogVisible}
+            onClose={hideEditDialog}
+            newPost={false}
+            title={post.title}
+            subtitle={post.subtitle}
+            content={post.content}
+            onSubmitHandler={updatePost}
+          />
+          <DeleteDialog
+            open={deleteDialogVisible}
+            onClose={hideDeleteDialog}
+            onSubmitHandler={deletePost}
+          />
         </div>
       ) : (
         <Loading />
