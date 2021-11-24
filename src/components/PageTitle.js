@@ -26,7 +26,7 @@ export const PageTitle = (props) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuItemClick = (event, index) => {
+  const handleMenuItemClick = (index) => {
     setSelectedIndex(index);
     props.sortChangeHandler(sortOptions[index]);
     handleClose();
@@ -66,7 +66,7 @@ export const PageTitle = (props) => {
                 <MenuItem
                   key={option}
                   selected={index === selectedIndex}
-                  onClick={(event) => handleMenuItemClick(event, index)}
+                  onClick={(event) => handleMenuItemClick(index)}
                 >
                   {option}
                 </MenuItem>
