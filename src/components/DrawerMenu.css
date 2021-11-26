@@ -1,0 +1,14 @@
+.desktopMenu {
+  margin-inline-start: 2rem;
+  width: 350px;
+  min-width: 350px;
+  max-width: 350px;;
+  flex: 1;
+  vertical-align: top;
+}
+
+.avatarContainer {
+  display: flex;
+  justify-content: center;
+  margin-block-start: 1rem;
+}
