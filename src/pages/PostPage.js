@@ -159,6 +159,7 @@ export const PostPage = (props) => {
             }
           </div>
           <PostDialog
+            key={post.updatedAt}
             open={editDialogVisible}
             onClose={hideEditDialog}
             newPost={false}
