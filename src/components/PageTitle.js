@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import SortIcon from '@mui/icons-material/Sort';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import Tooltip from '@mui/material/Tooltip';
 import './PageTitle.css';
 
 import { useNavigate } from 'react-router-dom';
@@ -46,13 +47,15 @@ export const PageTitle = (props) => {
       <div className="pageTitleButtons">
         {props.showSort &&
           <div className="sortMenu">
-            <IconButton
-              aria-label="sort"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClickSortButton}
-            >
-              <SortIcon/>
-            </IconButton>
+            <Tooltip title="Sort by">
+              <IconButton
+                aria-label="sort"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClickSortButton}
+              >
+                <SortIcon/>
+              </IconButton>
+            </Tooltip>
             <Menu
               anchorEl={anchorEl}
               open={open}
@@ -74,12 +77,14 @@ export const PageTitle = (props) => {
             </Menu>
           </div>
         }
-        <IconButton
-          aria-label="new post"
-          onClick={handleClickAddButton}
-        >
-          <AddIcon/>
-        </IconButton>
+        <Tooltip title="New post">
+          <IconButton
+            aria-label="new post"
+            onClick={handleClickAddButton}
+          >
+            <AddIcon/>
+          </IconButton>
+        </Tooltip>
       </div>
     </div>
   );
