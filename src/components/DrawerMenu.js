@@ -59,13 +59,13 @@ export const DrawerMenu = () => {
           <div className="avatarContainer">
             <Avatar
               size={64}
-              name={user ? user.username : "Argotique"}
+              name={user?.username}
               variant="beam"
               colors={["#0055a4", "#ef4135"]}
             />
           </div>
           <Typography component="div" sx={{mt: 2, mb: 1, textAlign:"center"}}>
-            {user? user.username : "Argotique"}
+            {user?.username}
           </Typography>
           <List sx={{ width: "100%", maxWidth: 360}}>
             <ListItem disablePadding>
