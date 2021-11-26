@@ -22,7 +22,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import NotesIcon from '@mui/icons-material/Notes';
 import './DrawerMenu.css';
 
-export const DrawerMenu = () => {
+export const DrawerMenu = (props) => {
   const [user, setUser] = useState();
   const navigate = useNavigate();
 
@@ -39,6 +39,9 @@ export const DrawerMenu = () => {
   }
 
   const handleNavItemClick = (path) => () => {
+    if (!(wideScreen || props.handleDrawerItemClick === undefined)) {
+      props.handleDrawerItemClick();
+    }
     navigate(path);
   }
 

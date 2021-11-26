@@ -34,7 +34,7 @@ export const MobileDrawer = () => {
           }
         }}
       >
-        <DrawerMenu />
+        <DrawerMenu handleDrawerItemClick={toggleDrawer}/>
       </Drawer>
     </div>
   );
