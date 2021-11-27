@@ -57,7 +57,7 @@ export const DrawerMenu = (props) => {
 
   return (
     <div className={wideScreen ? "desktopMenu" : "mobileMenu"}>
-      <Card variant="outlined" sx={{border:"none"}}>
+      <Card variant="outlined" sx={{border: wideScreen ? "default" : "none"}}>
         <CardContent>
           <div className="avatarContainer">
             <Avatar
