@@ -42,6 +42,7 @@ export const PostDialog = (props) => {
         .required("Required"),
       content: Yup.string()
         .max(500, "Must be 500 characters or less")
+        .nullable(),
     }),
     onSubmit: values => {
       props.onSubmitHandler(values);
