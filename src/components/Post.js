@@ -3,10 +3,14 @@ import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
 import { getPost } from '../graphql/queries';
 import { updatePost, createPostVote, deletePostVote } from '../graphql/mutations';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import UseAnimations from 'react-useanimations';
 import heart from 'react-useanimations/lib/heart';
-import { CardComponent as Card } from './Card';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 import { ActionMenu } from './ActionMenu';
 import './Post.css';
 
@@ -91,55 +95,95 @@ export class Post extends React.Component {
 
   render() {
     return(
-      <Card>
-        <div className="postMeta">
-          <span className="postAuthor">
-            <Link to={`/user/${this.props.username}`}>{this.props.username}</Link>
-          </span>
-          {" · "}
-          <span className="postAge">
-            {this.props.contentAge}
-          </span>
-          {!this.props.isPreview &&
-            <span className="postActions">
-              <ActionMenu
-                isOwnedByUser={this.props.isOwnedByUser}
-                editPostHandler={this.props.editPostHandler}
-                deletePostHandler={this.props.deletePostHandler}
+      <Card className="postCard" variant="outlined">
+        <CardContent sx={{
+          "&:last-child": {
+            paddingBottom: "16px"
+          },
+        }}>
+          <Grid container spacing={2}>
+            <Grid container item spacing={2}>
+              <Grid item sm={1.125} xs={2}>
+              </Grid>
+              <Grid item sm={10.875} xs={10}>
+                <div className="postMetaContainer">
+                  <Typography
+                    className="postMeta"
+                    variant="subtitle1"
+                    color="text.secondary"
+                    flexGrow={1}
+                  >
+                    <Link
+                      component={RouterLink}
+                      to={`/user/${this.props.username}`}
+                      color="inherit"
+                      underline="hover"
+                    >
+                      {this.props.username}
+                    </Link>
+                    {" · "}
+                    {this.props.contentAge}
+                  </Typography>
+                  {!this.props.isPreview &&
+                    <span className="postActions">
+                      <ActionMenu
+                        isOwnedByUser={this.props.isOwnedByUser}
+                        editPostHandler={this.props.editPostHandler}
+                        deletePostHandler={this.props.deletePostHandler}
+                      />
+                    </span>
+                  }
+                </div>
+              </Grid>
+            </Grid>
+            <Grid container item spacing={2}>
+              <Grid item sm={1.125} xs={2}>
+              <UseAnimations
+                className="heartButton"
+                reverse={this.state.liked}
+                onClick={(event) => {
+                  event.preventDefault();
+                  this.setLiked(!this.state.liked);
+                }}
+                size={40}
+                strokeColor={"var(--argotique-red)"}
+                pathCss={"fill:var(--argotique-red)"}
+                animation={heart}
+                wrapperStyle={{ marginTop: "-4px" }}
               />
-            </span>
-          }
-        </div>
-        <div className="postTitleRow">
-          <UseAnimations
-            className="heartButton"
-            reverse={this.state.liked}
-            onClick={(event) => {
-              event.preventDefault();
-              this.setLiked(!this.state.liked);
-            }}
-            size={40}
-            strokeColor={"var(--argotique-red)"}
-            pathCss={"fill:var(--argotique-red)"}
-            animation={heart}
-          />
-          <h3 className="postTitle">{this.props.title}</h3>
-        </div>
-        {!this.props.isPreview &&
-          <div className="postContent">
-            <h4 className="postSubtitle">{this.props.subtitle}</h4>
-            <p className="postText">{this.props.content}</p>
-          </div>
-        }
-        <div className="postMetrics">
-          <span className="voteCount">
-            {this.state.displayLikes} {this.state.displayLikes === 1 ? "like" : "likes"}
-          </span>
-          {" · "}
-          <span className="commentCount">
-            {this.props.commentCount} {this.props.commentCount === 1 ? "comment" : "comments"}
-          </span>
-        </div>
+              </Grid>
+              <Grid item sm={10.875} xs={10}>
+                <Typography className="postTitle" variant="h5" gutterBottom>
+                  {this.props.title}
+                </Typography>
+                {!this.props.isPreview &&
+                  <div className="postContent">
+                    <Typography className="postSubtitle" variant="h6" gutterBottom>
+                      {this.props.subtitle}
+                    </Typography>
+                    <Typography className="postText" variant="body1" paragraph>
+                      {this.props.content}
+                    </Typography>
+                  </div>
+                }
+              </Grid>
+            </Grid>
+            <Grid container item spacing={2}>
+              <Grid item sm={1.125} xs={2}>
+              </Grid>
+              <Grid item sm={10.875} xs={10}>
+                <Typography
+                  className="postMetrics"
+                  variant="subtitle1"
+                >
+                  {this.state.displayLikes} {this.state.displayLikes === 1 ? "like" : "likes"}
+                  {" · "}
+                  {this.props.commentCount} {this.props.commentCount === 1 ? "comment" : "comments"}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </CardContent>
       </Card>
     )
   }
