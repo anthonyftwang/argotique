@@ -153,19 +153,23 @@ export class Post extends React.Component {
               />
               </Grid>
               <Grid item sm={10.875} xs={10}>
-                <Typography className="postTitle" variant="h5" gutterBottom>
-                  {this.props.title}
-                </Typography>
-                {!this.props.isPreview &&
+                {this.props.isPreview ? (
+                  <Typography className="postTitle" variant="h5">
+                    {this.props.title}
+                  </Typography>
+                ) : (
                   <div className="postContent">
+                    <Typography className="postTitle" variant="h5" gutterBottom>
+                      {this.props.title} 🇫🇷
+                    </Typography>
                     <Typography className="postSubtitle" variant="h6" gutterBottom>
-                      {this.props.subtitle}
+                      {this.props.subtitle} 🇬🇧
                     </Typography>
                     <Typography className="postText" variant="body1" paragraph>
                       {this.props.content}
                     </Typography>
                   </div>
-                }
+                )}
               </Grid>
             </Grid>
             <Grid container item spacing={2}>
