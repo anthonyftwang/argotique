@@ -45,7 +45,7 @@ export default function App() {
             <Route path="/post/:id" element={<BasePage child={<PostPage />} key={Math.random()} />} />
             <Route path="/user/:id" element={<BasePage child={<UserPage />} key={Math.random()} />} />
             <Route path="/" element={<BasePage child={<HomePage />} key={Math.random()} />} />
-            <Route path="*" render={() => <Navigate to="/" />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
           {wideScreen && <DrawerMenu />}
         </main>
