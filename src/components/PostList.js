@@ -9,7 +9,6 @@ import { Post } from '../components/Post';
 import { Loading } from '../components/Loading';
 import { PageTitle } from '../components/PageTitle';
 import { PostDialog } from '../components/PostDialog';
-import './PostList.css';
 
 export const PostList = (props) => {
   const [posts, setPosts] = useState([]);

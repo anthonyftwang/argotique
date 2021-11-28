@@ -1,14 +1,3 @@
-/* nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--argotique-main-padding);
-  background: #0055a4;
-  color: var(--argotique-white);
-  height: var(--argotique-nav-height);
-} */
-
 nav .appName {
   font-size: 1.5rem;
   font-weight: bold;
