@@ -25,7 +25,10 @@ export const UserPage = () => {
     // Then match the userID to a user from the list
     // (exactly one item in this list, so same as items[0])
     const ownerData = ownerDataList.data.listUsers.items.find(user => user.name === ownerName);
-    const ownerID = ownerData.id; // should always exist...
+    if (!ownerData) {
+      return [];
+    }
+    const ownerID = ownerData.id;
     // ... (make name a primary key????)
     // set owner state variable ("My" | ${user}"'s") to dynamically generate page heading
     const owner = (ownerID === user.attributes.sub) ? "My" : `${ownerName}'s`

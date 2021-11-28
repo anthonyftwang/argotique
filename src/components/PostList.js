@@ -22,7 +22,9 @@ export const PostList = (props) => {
 
   const fetchPosts = async () => {
     const posts = await props.fetchPosts();
-    sortPosts(props.defaultSort, posts);
+    if (posts.length) {
+      sortPosts(props.defaultSort, posts);
+    }
     setPosts(posts);
   }
 
@@ -120,7 +122,7 @@ export const PostList = (props) => {
             </Link>
           ))
         ) : (
-          <Loading />
+          <Loading isPreview />
         )}
       </div>
       <PostDialog
