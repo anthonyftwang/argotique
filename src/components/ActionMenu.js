@@ -15,8 +15,6 @@ export const ActionMenu = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const navigate = useNavigate();
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -33,7 +31,6 @@ export const ActionMenu = (props) => {
   const handleDelete = () => {
     handleClose();
     props.deletePostHandler();
-    // navigate(-1);
   };
 
   return (

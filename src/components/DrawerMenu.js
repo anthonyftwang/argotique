@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Auth from '@aws-amplify/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Card from '@mui/material/Card';
@@ -25,6 +25,7 @@ import './DrawerMenu.css';
 export const DrawerMenu = (props) => {
   const [user, setUser] = useState();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const theme = useTheme();
   const wideScreen = !useMediaQuery(theme.breakpoints.down('md'));
@@ -42,7 +43,13 @@ export const DrawerMenu = (props) => {
     if (!(wideScreen || props.handleDrawerItemClick === undefined)) {
       props.handleDrawerItemClick();
     }
-    navigate(path);
+    if (path.split("/")[1] === location.pathname.split("/")[1]
+      && path !== location.pathname) {
+      window.location.href = path;
+    }
+    else {
+      navigate(path);
+    }
   }
 
   const handleExternalItemClick = (path) => () => {
