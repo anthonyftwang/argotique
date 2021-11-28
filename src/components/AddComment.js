@@ -8,6 +8,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Typography from '@mui/material/Typography';
 import './AddComment.css';
 
 export const AddComment = (props) => {
@@ -40,7 +41,10 @@ export const AddComment = (props) => {
               }
             }}
           >
-            <h2 style={{margin:0}}>Comments</h2>
+            {/* <h2 style={{margin:0}}>Comments</h2> */}
+            <Typography variant="h6">
+              Discussion
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <form onSubmit={formik.handleSubmit}>

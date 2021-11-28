@@ -15,7 +15,7 @@
 
 .accordian {
   margin-inline: -16px;
-  margin-block: 1rem;
+  /* margin-block: 1rem; */
 }
 
 .commentError {
