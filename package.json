@@ -5,7 +5,7 @@
   "dependencies": {
     "@apollo/client": "^3.4.17",
     "@aws-amplify/cli": "^7.3.6",
-    "@aws-amplify/ui-react": "^1.2.21",
+    "@aws-amplify/ui-react": "^1.2.26",
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.1.1",
