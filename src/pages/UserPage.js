@@ -3,22 +3,14 @@ import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
 import { listPostVotes, listPosts, listUsers } from '../graphql/queries';
-import moment from 'moment';
-import { Link, useLocation } from 'react-router-dom';
-import { Post } from '../components/Post';
-import { Loading } from '../components/Loading';
-import './UserPage.css';
+import { useLocation } from 'react-router-dom';
+import { PostList } from '../components/PostList';
 
 export const UserPage = () => {
-  const [posts, setPosts] = useState([]);
   const location = useLocation();
   const [owner, setOwner] = useState(`${location.pathname.split("/").pop()}'s`);
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  async function fetchPosts() {
+  async function fetchPostsByUser() {
     const user = await Auth.currentAuthenticatedUser();
     // Need owner's userID from their username... first get all users
     const ownerName = location.pathname.split("/").pop()
@@ -59,35 +51,21 @@ export const UserPage = () => {
       ...post,
       isLiked: likeData.data.listPostVotes.items.some(like => like.postID === post.id)
     }));
-    setPosts(posts);
+    return posts;
+  }
+
+  const makeTitleText = () => {
+    return `${owner} argots`;
   }
 
   return (
     <div className="userPage">
-      <h2>{owner} Posts</h2>
-      <div className="postList">
-        {posts.length ? (
-          posts.map(post => (
-            <Link to={`/post/${post.id}`}>
-              <Post
-                key={post.id}
-                isPreview={true}
-                id={post.id}
-                username={post.user.name}
-                title={post.title}
-                subtitle={post.subtitle}
-                content={post.content}
-                voteCount={post.voteCount}
-                commentCount={post.commentCount}
-                contentAge={moment(post.createdAt).fromNow()}
-                isLiked={post.isLiked}
-              />
-            </Link>
-          ))
-        ) : (
-          <Loading />
-        )}
-      </div>
+      <PostList
+        fetchPosts={fetchPostsByUser}
+        defaultSort={"New"}
+        showAdd={owner === "My"}
+        makeTitleText={makeTitleText}
+      />
     </div>
   )
 }

@@ -2,6 +2,7 @@
   margin-top: 0.75rem;
   display: flex;
   align-items: center;
+  height: 40px;
 }
 
 .pageTitleRow h2 {

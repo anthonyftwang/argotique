@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import SortIcon from '@mui/icons-material/Sort';
@@ -8,18 +9,15 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import './PageTitle.css';
 
-import { useNavigate } from 'react-router-dom';
-
 const sortOptions = [
   "Top",
-  "Newest",
+  "New",
   "Active"
 ];
 
 export const PageTitle = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  let navigate = useNavigate();
 
   const open = Boolean(anchorEl);
   
@@ -43,7 +41,9 @@ export const PageTitle = (props) => {
 
   return (
     <div className="pageTitleRow">
-      <h2>{props.titleText}</h2>
+      <Typography variant="h6" component="div" flexGrow={1}>
+        {props.titleText}
+      </Typography>
       <div className="pageTitleButtons">
         {props.showSort &&
           <div className="sortMenu">
@@ -77,14 +77,16 @@ export const PageTitle = (props) => {
             </Menu>
           </div>
         }
-        <Tooltip title="New post">
-          <IconButton
-            aria-label="new post"
-            onClick={handleClickAddButton}
-          >
-            <AddIcon/>
-          </IconButton>
-        </Tooltip>
+        {props.showAdd &&
+          <Tooltip title="New post">
+            <IconButton
+              aria-label="new post"
+              onClick={handleClickAddButton}
+            >
+              <AddIcon/>
+            </IconButton>
+          </Tooltip>
+        }
       </div>
     </div>
   );
