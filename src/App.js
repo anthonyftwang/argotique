@@ -14,6 +14,7 @@ import { DrawerMenu } from './components/DrawerMenu.js';
 import { HomePage } from './pages/HomePage.js';
 import { PostPage } from './pages/PostPage.js';
 import { UserPage } from './pages/UserPage.js';
+import { LikedPage } from './pages/LikedPage.js';
 import { BasePage } from './pages/BasePage.js';
 import './App.css';
 
@@ -44,8 +45,9 @@ export default function App() {
           <Routes>
             <Route path="/post/:id" element={<BasePage child={<PostPage />} key={Math.random()} />} />
             <Route path="/user/:id" element={<BasePage child={<UserPage />} key={Math.random()} />} />
+            <Route path="/liked" element={<BasePage child={<LikedPage />} key={Math.random()} />} />
             <Route path="/" element={<BasePage child={<HomePage />} key={Math.random()} />} />
-            <Route path="*" element={<Navigate replace to="/" />} />
+            <Route path="*" element={<Navigate replace to="/" key={Math.random()} />} />
           </Routes>
           {wideScreen && <DrawerMenu />}
         </main>

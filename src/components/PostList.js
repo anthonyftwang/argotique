@@ -12,7 +12,7 @@ import { PostDialog } from '../components/PostDialog';
 
 export const PostList = (props) => {
   const [posts, setPosts] = useState([]);
-  const [sort, setSort] = useState("Top");
+  const [sort, setSort] = useState(props.defaultSort);
   const [dialogVisible, setDialogVisible] = useState();
   const navigate = useNavigate();
 
