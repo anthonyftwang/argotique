@@ -1,5 +1,5 @@
 .pageTitleRow {
-  margin-top: 0.75rem;
+  margin-block-end: 0.5rem;
   display: flex;
   align-items: center;
   height: 40px;
