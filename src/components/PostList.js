@@ -78,7 +78,7 @@ export const PostList = (props) => {
       variables: { input: params }
     });
     // redirect user to new page with snackbar
-    navigate(`./post/${newPost.data.createPost.id}`, { state: { successText: "Post created!" } })
+    navigate(`./post/${newPost.data.createPost.id}`, { state: { successText: "Argot created!" } })
   }
 
   const makeTitleText = () => {

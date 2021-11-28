@@ -113,7 +113,7 @@ export const PostPage = (props) => {
       variables: {input: updatedPostParams }
     });
     fetchPostAndComments();
-    props.successSnackbarHandler("Post updated!");
+    props.successSnackbarHandler("Argot updated!");
   }
 
   async function deletePost() {
