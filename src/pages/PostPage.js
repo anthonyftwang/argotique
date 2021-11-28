@@ -175,7 +175,7 @@ export const PostPage = (props) => {
           />
         </div>
       ) : (
-        <Loading />
+        <Loading isPreview={false} />
       )}
     </div>
   )
