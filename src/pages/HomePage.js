@@ -2,7 +2,7 @@ import React from 'react';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
 import { listPostVotes, listPosts } from '../graphql/queries';
-import { PostList } from '../components/PostList';
+import { PostList } from 'components/PostList';
 
 export const HomePage = () => {
   async function fetchAllPosts() {
