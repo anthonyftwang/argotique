@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export const DeleteDialog = (props) => {
+const DeleteDialog = (props) => {
   const closeDialog = () => {
     props.onClose();
   }
@@ -40,3 +40,5 @@ export const DeleteDialog = (props) => {
     </Dialog>
   );
 }
+
+export default DeleteDialog;

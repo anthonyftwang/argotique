@@ -2,19 +2,19 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
-import { getPost, listComments } from '../graphql/queries';
-import { updatePost as updatePostMutation, deletePost as deletePostMutation, createComment as createCommentMutation } from '../graphql/mutations';
+import { getPost, listComments } from 'graphql/queries';
+import { updatePost as updatePostMutation, deletePost as deletePostMutation, createComment as createCommentMutation } from 'graphql/mutations';
 import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import { Post } from '../components/Post';
-import { Comment } from '../components/Comment';
-import { AddComment } from '../components/AddComment';
-import { Loading } from '../components/Loading';
-import { PostDialog } from '../components/PostDialog';
-import { DeleteDialog } from '../components/DeleteDialog';
+import Post from 'components/Post/Post';
+import Comment from 'components/Comment/Comment';
+import CommentForm from 'components/CommentForm/CommentForm';
+import Loading from 'components/Loding/Loading';
+import PostDialog from 'components/PostDialog/PostDialog';
+import DeleteDialog from 'components/DeleteDialog/DeleteDialog';
 import './PostPage.css';
 
-export const PostPage = (props) => {
+const PostPage = (props) => {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
   const [editDialogVisible, setEditDialogVisible] = useState();
@@ -145,7 +145,7 @@ export const PostPage = (props) => {
             deletePostHandler={showDeleteDialog}
           />
           <div className="commentsList">
-            <AddComment onSubmitHandler={createComment} />
+            <CommentForm onSubmitHandler={createComment} />
             {!!comments.length &&
               comments.map(comment => (
                 <Comment
@@ -180,3 +180,5 @@ export const PostPage = (props) => {
     </div>
   )
 }
+
+export default PostPage;

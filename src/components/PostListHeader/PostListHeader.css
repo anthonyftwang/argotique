@@ -1,11 +1,11 @@
-.pageTitleRow {
+.postListHeader {
   margin-block-end: 0.5rem;
   display: flex;
   align-items: center;
   height: 40px;
 }
 
-.pageTitleButtons {
+.postListHeaderButtons {
   float: right;
 }
 

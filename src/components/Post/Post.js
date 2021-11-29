@@ -1,8 +1,8 @@
 import React from 'react';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
-import { getPost } from '../graphql/queries';
-import { updatePost, createPostVote, deletePostVote } from '../graphql/mutations';
+import { getPost } from 'graphql/queries';
+import { updatePost, createPostVote, deletePostVote } from 'graphql/mutations';
 import { Link as RouterLink } from 'react-router-dom';
 import UseAnimations from 'react-useanimations';
 import heart from 'react-useanimations/lib/heart';
@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { ActionMenu } from './ActionMenu';
+import ActionMenu from 'components/ActionMenu/ActionMenu';
 import './Post.css';
 
 // { // PROPS
@@ -28,7 +28,7 @@ import './Post.css';
 //   isOwnedByUser
 // }
 
-export class Post extends React.Component {
+class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -192,3 +192,5 @@ export class Post extends React.Component {
     )
   }
 }
+
+export default Post;

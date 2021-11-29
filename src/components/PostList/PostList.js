@@ -2,15 +2,15 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
-import { createPost as createPostMutation } from '../graphql/mutations';
+import { createPost as createPostMutation } from 'graphql/mutations';
 import moment from 'moment';
 import { Link, useNavigate } from 'react-router-dom';
-import { Post } from '../components/Post';
-import { Loading } from '../components/Loading';
-import { PageTitle } from '../components/PageTitle';
-import { PostDialog } from '../components/PostDialog';
+import Post from 'components/Post/Post';
+import Loading from 'components/Loding/Loading';
+import PostListHeader from 'components/PostListHeader/PostListHeader';
+import PostDialog from 'components/PostDialog/PostDialog';
 
-export const PostList = (props) => {
+const PostList = (props) => {
   const [posts, setPosts] = useState([]);
   const [sort, setSort] = useState(props.defaultSort);
   const [dialogVisible, setDialogVisible] = useState();
@@ -94,7 +94,7 @@ export const PostList = (props) => {
 
   return (
     <div className="postList">
-      <PageTitle
+      <PostListHeader
         className="listHeader"
         titleText={makeTitleText()}
         showSort={props.showSort}
@@ -132,5 +132,7 @@ export const PostList = (props) => {
         onSubmitHandler={createPost}
       />
     </div>
-  )
+  );
 }
+
+export default PostList;

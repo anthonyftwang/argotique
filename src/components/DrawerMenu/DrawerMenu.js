@@ -22,7 +22,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import NotesIcon from '@mui/icons-material/Notes';
 import './DrawerMenu.css';
 
-export const DrawerMenu = (props) => {
+const DrawerMenu = (props) => {
   const [user, setUser] = useState();
   const navigate = useNavigate();
   const location = useLocation();
@@ -143,3 +143,5 @@ export const DrawerMenu = (props) => {
     </div>
   )
 }
+
+export default DrawerMenu;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
-import { listPostVotes, listPosts } from '../graphql/queries';
-import { PostList } from 'components/PostList';
+import { listPostVotes, listPosts } from 'graphql/queries';
+import PostList from 'components/PostList/PostList';
 
-export const HomePage = () => {
+const HomePage = () => {
   async function fetchAllPosts() {
     const postData = await API.graphql({ query: listPosts });
     const user = await Auth.currentAuthenticatedUser();
@@ -34,3 +34,5 @@ export const HomePage = () => {
     </div>
   )
 }
+
+export default HomePage;

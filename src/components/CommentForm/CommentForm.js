@@ -9,9 +9,9 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
-import './AddComment.css';
+import './CommentForm.css';
 
-export const AddComment = (props) => {
+const CommentForm = (props) => {
   const formik = useFormik({
     initialValues: {
       comment: "",
@@ -82,3 +82,5 @@ export const AddComment = (props) => {
     </div>
   );
 };
+
+export default CommentForm;

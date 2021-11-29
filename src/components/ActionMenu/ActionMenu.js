@@ -11,7 +11,7 @@ import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import './ActionMenu.css';
 
-export const ActionMenu = (props) => {
+const ActionMenu = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -78,3 +78,5 @@ export const ActionMenu = (props) => {
     </div>
   );
 }
+
+export default ActionMenu;

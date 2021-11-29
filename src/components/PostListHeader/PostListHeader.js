@@ -7,7 +7,7 @@ import SortIcon from '@mui/icons-material/Sort';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
-import './PageTitle.css';
+import './PostListHeader.css';
 
 const sortOptions = [
   "Top",
@@ -15,7 +15,7 @@ const sortOptions = [
   "Active"
 ];
 
-export const PageTitle = (props) => {
+const PostListHeader = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -40,11 +40,11 @@ export const PageTitle = (props) => {
   }
 
   return (
-    <div className="pageTitleRow">
+    <div className="postListHeader">
       <Typography variant="h6" component="div" flexGrow={1}>
         {props.titleText}
       </Typography>
-      <div className="pageTitleButtons">
+      <div className="postListHeaderButtons">
         {props.showSort &&
           <div className="sortMenu">
             <Tooltip title="Sort by">
@@ -90,4 +90,6 @@ export const PageTitle = (props) => {
       </div>
     </div>
   );
-};
+}
+
+export default PostListHeader;

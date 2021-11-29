@@ -9,13 +9,13 @@ import {
 import { AmplifyAuthenticator, AmplifySignUp } from '@aws-amplify/ui-react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Nav } from './components/Nav.js';
-import { DrawerMenu } from './components/DrawerMenu.js';
-import { HomePage } from './pages/HomePage.js';
-import { PostPage } from './pages/PostPage.js';
-import { UserPage } from './pages/UserPage.js';
-import { LikedPage } from './pages/LikedPage.js';
-import { BasePage } from './pages/BasePage.js';
+import Nav from 'components/Nav/Nav';
+import DrawerMenu from 'components/DrawerMenu/DrawerMenu';
+import HomePage from 'views/HomePage/HomePage';
+import PostPage from 'views/PostPage/PostPage';
+import UserPage from 'views/UserPage/UserPage';
+import LikedPage from 'views/LikedPage/LikedPage';
+import BasePage from 'views/BasePage/BasePage';
 import './App.css';
 
 import Amplify from 'aws-amplify';

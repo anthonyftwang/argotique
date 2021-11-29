@@ -2,11 +2,11 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
-import { listPostVotes, listPosts, listUsers } from '../graphql/queries';
+import { listPostVotes, listPosts, listUsers } from 'graphql/queries';
 import { useLocation } from 'react-router-dom';
-import { PostList } from '../components/PostList';
+import PostList from 'components/PostList/PostList';
 
-export const UserPage = () => {
+const UserPage = () => {
   const location = useLocation();
   const [owner, setOwner] = useState(`${location.pathname.split("/").pop()}'s`);
 
@@ -70,5 +70,7 @@ export const UserPage = () => {
         makeTitleText={makeTitleText}
       />
     </div>
-  )
+  );
 }
+
+export default UserPage;

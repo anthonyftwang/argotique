@@ -8,7 +8,7 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { MessageCircle } from 'react-feather';
-import { MobileDrawer } from './MobileDrawer';
+import MobileDrawer from 'components/MobileDrawer/MobileDrawer';
 import './Nav.css';
 
 function ElevationScroll(props) {
@@ -22,7 +22,7 @@ function ElevationScroll(props) {
   });
 }
 
-export const Nav = (props) => {
+const Nav = (props) => {
   const theme = useTheme();
   const showTempDrawer = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -49,3 +49,5 @@ export const Nav = (props) => {
     </nav>
   )
 }
+
+export default Nav;

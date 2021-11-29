@@ -6,7 +6,6 @@ const CardSkeleton = (props) => {
   return (
     <Skeleton
       variant="rectangle"
-
       height={props.height}
       width={props.width}
       sx={{
@@ -17,7 +16,7 @@ const CardSkeleton = (props) => {
   );
 }
 
-export const Loading = (props) => (
+const Loading = (props) => (
   <div className="loadingSkeleton">
     {props.isPreview ? (
       <Stack className="listSkeleton" spacing={2}>
@@ -35,3 +34,5 @@ export const Loading = (props) => (
     )}
   </div>
 )
+
+export default Loading;

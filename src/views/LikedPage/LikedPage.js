@@ -1,10 +1,10 @@
 import React from 'react';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
-import { listPostVotes, listPosts } from '../graphql/queries';
-import { PostList } from '../components/PostList';
+import { listPostVotes, listPosts } from 'graphql/queries';
+import PostList from 'components/PostList/PostList';
 
-export const LikedPage = () => {
+const LikedPage = () => {
   async function fetchLikedPosts() {
     const user = await Auth.currentAuthenticatedUser();
     const likeData = await API.graphql({
@@ -46,5 +46,7 @@ export const LikedPage = () => {
         makeTitleText={makeTitleText}
       />
     </div>
-  )
+  );
 }
+
+export default LikedPage;

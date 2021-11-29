@@ -9,7 +9,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export const BasePage = (props) => {
+const BasePage = (props) => {
   const location  = useLocation();
   const [successText, setSuccessText] = useState(
     // initially load snackbar if given state with non-null text
@@ -38,3 +38,5 @@ export const BasePage = (props) => {
     </div>
   );
 }
+
+export default BasePage;

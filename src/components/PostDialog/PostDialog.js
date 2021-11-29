@@ -23,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const PostDialog = (props) => {
+const PostDialog = (props) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -165,3 +165,5 @@ export const PostDialog = (props) => {
     </Dialog>
   );
 }
+
+export default PostDialog;

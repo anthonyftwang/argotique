@@ -3,9 +3,9 @@ import { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import { DrawerMenu } from './DrawerMenu';
+import DrawerMenu from 'components/DrawerMenu/DrawerMenu';
 
-export const MobileDrawer = () => {
+const MobileDrawer = () => {
   const [drawerOpen, setDrawerOpen] = useState();
 
   const toggleDrawer = () => {
@@ -39,3 +39,5 @@ export const MobileDrawer = () => {
     </div>
   );
 }
+
+export default MobileDrawer;

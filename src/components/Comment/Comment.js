@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import './Comment.css';
 
-export const Comment = ({
+const Comment = ({
   content,
   username,
   contentAge
@@ -44,3 +44,5 @@ export const Comment = ({
     </CardContent>
   </Card>
 )
+
+export default Comment;
