@@ -4,25 +4,10 @@ import { useLocation } from 'react-router-dom';
 import { Snackbar, Alert } from '@mui/material';
 import './BasePage.css';
 
-const SnackbarAlert = React.forwardRef(function SnackbarAlert(
-  { onClose, severity, sx, style, direction, children },
-  ref
-) {
+const SnackbarAlert = React.forwardRef(function SnackbarAlert(props, ref) {
   return (
-    <div>
-      <Alert
-        elevation={6}
-        ref={ref}
-        variant="filled"
-        onClose={onClose}
-        severity={severity}
-        sx={sx}
-        style={style}
-        direction={direction}
-      >
-        {children}
-      </Alert>
-    </div>
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <Alert elevation={6} ref={ref} variant="filled" {...props} />
   );
 });
 

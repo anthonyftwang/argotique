@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
@@ -25,7 +23,7 @@ import * as Yup from 'yup';
 import './PostDialog.css';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  console.log(props);
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
@@ -60,7 +58,9 @@ function PostDialog({
     }),
     onSubmit: (values) => {
       onSubmitHandler(values);
-      closeDialog(formik.resetForm);
+
+      // eslint-disable-next-line no-use-before-define
+      closeDialog();
     },
   });
 
@@ -77,7 +77,7 @@ function PostDialog({
       fullScreen={fullScreen}
       open={open}
       onClose={closeDialog}
-      TransitionComponent={fullScreen ? Slide : Fade}
+      TransitionComponent={fullScreen ? Transition : Fade}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="postForm">
