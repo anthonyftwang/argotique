@@ -20,7 +20,7 @@ function PostList({
 }) {
   const [posts, setPosts] = useState([]);
   const [sort, setSort] = useState(defaultSort);
-  const [dialogVisible, setDialogVisible] = useState();
+  const [dialogVisible, setDialogVisible] = useState(false);
   const navigate = useNavigate();
 
   const showAddDialog = () => {
@@ -115,9 +115,8 @@ function PostList({
       <div className="postList">
         {posts.length ? (
           posts.map((post) => (
-            <Link to={`/post/${post.id}`}>
+            <Link to={`/post/${post.id}`} key={post.id} as="li">
               <Post
-                key={post.id}
                 isPreview
                 id={post.id}
                 username={post.user.name}

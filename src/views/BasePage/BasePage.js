@@ -58,7 +58,7 @@ function BasePage({ childView }) {
         successSnackbarHandler: openSnackbar,
       })}
       <Snackbar
-        open={successText}
+        open={!!successText}
         autoHideDuration={6000}
         onClose={handleAlertClose}
       >

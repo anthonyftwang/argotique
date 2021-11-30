@@ -21,7 +21,7 @@ import './PostPage.css';
 function PostPage({ successSnackbarHandler }) {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
-  const [editDialogVisible, setEditDialogVisible] = useState();
+  const [editDialogVisible, setEditDialogVisible] = useState(false);
   const [deleteDialogVisible, setDeleteDialogVisible] = useState();
   const location = useLocation();
   const navigate = useNavigate();
@@ -188,7 +188,11 @@ function PostPage({ successSnackbarHandler }) {
 }
 
 PostPage.propTypes = {
-  successSnackbarHandler: PropTypes.func.isRequired,
+  successSnackbarHandler: PropTypes.func,
+};
+
+PostPage.defaultProps = {
+  successSnackbarHandler: null,
 };
 
 export default PostPage;

@@ -187,10 +187,10 @@ PostDialog.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   content: PropTypes.string,
-  open: PropTypes.string.isRequired,
-  onClose: PropTypes.string.isRequired,
-  onSubmitHandler: PropTypes.string.isRequired,
-  newPost: PropTypes.string,
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSubmitHandler: PropTypes.func.isRequired,
+  newPost: PropTypes.bool,
 };
 
 PostDialog.defaultProps = {
