@@ -110,7 +110,7 @@ function DrawerMenu({ handleDrawerItemClick }) {
                 <ListItemIcon>
                   <Favorite />
                 </ListItemIcon>
-                <ListItemText primary="Liked posts" />
+                <ListItemText primary="Liked argots" />
               </ListItemButton>
             </ListItem>
             <ListItem />
