@@ -1,42 +1,96 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import { Snackbar, Alert } from '@mui/material';
 import './BasePage.css';
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+const SnackbarAlert = React.forwardRef(function SnackbarAlert(
+  { onClose, severity, sx, style, direction, children },
+  ref
+) {
+  return (
+    <div>
+      <Alert
+        elevation={6}
+        ref={ref}
+        variant="filled"
+        onClose={onClose}
+        severity={severity}
+        sx={sx}
+        style={style}
+        direction={direction}
+      >
+        {children}
+      </Alert>
+    </div>
+  );
 });
 
-const BasePage = (props) => {
-  const location  = useLocation();
+SnackbarAlert.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  severity: PropTypes.string.isRequired,
+  sx: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object])),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  style: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object])),
+    PropTypes.func,
+    PropTypes.object,
+  ]),
+  direction: PropTypes.string,
+  children: PropTypes.node.isRequired,
+};
+
+SnackbarAlert.defaultProps = {
+  sx: null,
+  style: null,
+  direction: 'up',
+};
+
+function BasePage({ childView }) {
+  const location = useLocation();
   const [successText, setSuccessText] = useState(
     // initially load snackbar if given state with non-null text
-    location.state ? location.state.successText : ""
+    location.state ? location.state.successText : ''
   );
 
   const handleAlertClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
-    setSuccessText("");
+    setSuccessText('');
   };
 
   const openSnackbar = (message) => {
     setSuccessText(message);
-  }
+  };
 
-  return(
+  return (
     <div className="pageContents">
-      {React.cloneElement(props.child, { successSnackbarHandler: openSnackbar })}
-      <Snackbar open={successText ? true : false} autoHideDuration={6000} onClose={handleAlertClose}>
-        <Alert onClose={handleAlertClose} severity="success" sx={{ width: "100%" }}>
+      {React.cloneElement(childView, {
+        successSnackbarHandler: openSnackbar,
+      })}
+      <Snackbar
+        open={successText}
+        autoHideDuration={6000}
+        onClose={handleAlertClose}
+      >
+        <SnackbarAlert
+          onClose={handleAlertClose}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
           {successText}
-        </Alert>
+        </SnackbarAlert>
       </Snackbar>
     </div>
   );
 }
+
+BasePage.propTypes = {
+  childView: PropTypes.element.isRequired,
+};
 
 export default BasePage;

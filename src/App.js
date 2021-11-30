@@ -1,30 +1,28 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from 'react-router-dom';
+import Amplify, { Auth } from 'aws-amplify';
 import { AmplifyAuthenticator, AmplifySignUp } from '@aws-amplify/ui-react';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+import { useTheme, useMediaQuery } from '@mui/material';
 import Nav from 'components/Nav/Nav';
 import DrawerMenu from 'components/DrawerMenu/DrawerMenu';
-import HomePage from 'views/HomePage/HomePage';
+import BasePage from 'views/BasePage/BasePage';
 import PostPage from 'views/PostPage/PostPage';
+import HomePage from 'views/HomePage/HomePage';
 import UserPage from 'views/UserPage/UserPage';
 import LikedPage from 'views/LikedPage/LikedPage';
-import BasePage from 'views/BasePage/BasePage';
+import awsconfig from './aws-exports';
 import './App.css';
 
-import Amplify from 'aws-amplify';
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
-import awsconfig from './aws-exports';
-
 Amplify.configure(awsconfig);
+Auth.configure(awsconfig);
 
-export default function App() {
+function App() {
   const [authState, setAuthState] = useState();
   const [user, setUser] = useState();
   const theme = useTheme();
@@ -33,7 +31,7 @@ export default function App() {
   useEffect(() => {
     return onAuthUIStateChange((nextAuthState, authData) => {
       setAuthState(nextAuthState);
-      setUser(authData)
+      setUser(authData);
     });
   }, []);
 
@@ -43,11 +41,34 @@ export default function App() {
         <Nav />
         <main>
           <Routes>
-            <Route path="/post/:id" element={<BasePage child={<PostPage />} key={Math.random()} />} />
-            <Route path="/user/:id" element={<BasePage child={<UserPage />} key={Math.random()} />} />
-            <Route path="/liked" element={<BasePage child={<LikedPage />} key={Math.random()} />} />
-            <Route path="/" element={<BasePage child={<HomePage />} key={Math.random()} />} />
-            <Route path="*" element={<Navigate replace to="/" key={Math.random()} />} />
+            <Route
+              path="/post/:id"
+              element={
+                <BasePage childView={<PostPage />} key={Math.random()} />
+              }
+            />
+            <Route
+              path="/user/:id"
+              element={
+                <BasePage childView={<UserPage />} key={Math.random()} />
+              }
+            />
+            <Route
+              path="/liked"
+              element={
+                <BasePage childView={<LikedPage />} key={Math.random()} />
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <BasePage childView={<HomePage />} key={Math.random()} />
+              }
+            />
+            <Route
+              path="*"
+              element={<Navigate replace to="/" key={Math.random()} />}
+            />
           </Routes>
           {wideScreen && <DrawerMenu />}
         </main>
@@ -58,11 +79,13 @@ export default function App() {
       <AmplifySignUp
         slot="sign-up"
         formFields={[
-          { type: "username" },
-          { type: "password" },
-          { type: "email" }
+          { type: 'username' },
+          { type: 'password' },
+          { type: 'email' },
         ]}
       />
     </AmplifyAuthenticator>
   );
 }
+
+export default App;

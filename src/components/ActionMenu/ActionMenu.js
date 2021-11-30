@@ -1,17 +1,17 @@
-import React from 'react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from "@mui/material/MenuItem";
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Edit from '@mui/icons-material/Edit';
-import Delete from '@mui/icons-material/Delete';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import requiredIf from 'react-required-if';
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  ListItemText,
+  ListItemIcon,
+} from '@mui/material';
+import { MoreVert, Edit, Delete } from '@mui/icons-material';
 import './ActionMenu.css';
 
-const ActionMenu = (props) => {
+function ActionMenu({ isOwnedByUser, editPostHandler, deletePostHandler }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,12 +25,12 @@ const ActionMenu = (props) => {
 
   const handleEdit = () => {
     handleClose();
-    props.editPostHandler();
+    editPostHandler();
   };
 
   const handleDelete = () => {
     handleClose();
-    props.deletePostHandler();
+    deletePostHandler();
   };
 
   return (
@@ -40,10 +40,10 @@ const ActionMenu = (props) => {
         onClick={handleClick}
         aria-label="more"
         aria-controls="action-menu"
-        aria-expanded={open ? "true" : undefined}
+        aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
       >
-        <MoreVertIcon />
+        <MoreVert />
       </IconButton>
       <Menu
         className="actionMenu"
@@ -51,24 +51,24 @@ const ActionMenu = (props) => {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          "aria-labelledby": "dotsButton"
+          'aria-labelledby': 'dotsButton',
         }}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right"
+          vertical: 'bottom',
+          horizontal: 'right',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "right"
+          vertical: 'top',
+          horizontal: 'right',
         }}
       >
-        <MenuItem disabled={!props.isOwnedByUser} onClick={handleEdit}>
+        <MenuItem disabled={!isOwnedByUser} onClick={handleEdit}>
           <ListItemIcon>
             <Edit fontSize="small" />
           </ListItemIcon>
           <ListItemText>Edit post</ListItemText>
         </MenuItem>
-        <MenuItem disabled={!props.isOwnedByUser} onClick={handleDelete}>
+        <MenuItem disabled={!isOwnedByUser} onClick={handleDelete}>
           <ListItemIcon>
             <Delete fontSize="small" />
           </ListItemIcon>
@@ -78,5 +78,16 @@ const ActionMenu = (props) => {
     </div>
   );
 }
+
+ActionMenu.propTypes = {
+  isOwnedByUser: PropTypes.bool.isRequired,
+  editPostHandler: requiredIf(PropTypes.func, (props) => props.isOwnedByUser),
+  deletePostHandler: requiredIf(PropTypes.func, (props) => props.isOwnedByUser),
+};
+
+ActionMenu.defaultProps = {
+  editPostHandler: null,
+  deletePostHandler: null,
+};
 
 export default ActionMenu;

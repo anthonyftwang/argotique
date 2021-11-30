@@ -1,67 +1,84 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import requiredIf from 'react-required-if';
+import { Link, useNavigate } from 'react-router-dom';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
-import { createPost as createPostMutation } from 'graphql/mutations';
 import moment from 'moment';
-import { Link, useNavigate } from 'react-router-dom';
+import { createPost as createPostMutation } from 'graphql/mutations';
 import Post from 'components/Post/Post';
-import Loading from 'components/Loding/Loading';
+import Loading from 'components/Loading/Loading';
 import PostListHeader from 'components/PostListHeader/PostListHeader';
 import PostDialog from 'components/PostDialog/PostDialog';
 
-const PostList = (props) => {
+function PostList({
+  fetchPosts,
+  makeTitleText,
+  showSort,
+  showAdd,
+  defaultSort,
+}) {
   const [posts, setPosts] = useState([]);
-  const [sort, setSort] = useState(props.defaultSort);
+  const [sort, setSort] = useState(defaultSort);
   const [dialogVisible, setDialogVisible] = useState();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  const showAddDialog = () => {
+    setDialogVisible(true);
+  };
 
-  const fetchPosts = async () => {
-    const posts = await props.fetchPosts();
-    if (posts.length) {
-      sortPosts(props.defaultSort, posts);
-    }
-    setPosts(posts);
-  }
+  const hideAddDialog = () => {
+    setDialogVisible(false);
+  };
 
   const sortPosts = (method, list) => {
     setSort(method);
     // TODO - pagination with server-side sorting
     switch (method) {
-      case "New":
-        list.sort((a,b) => b.createdAt.localeCompare(a.createdAt));
+      case 'New':
+        list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
         break;
-      case "Active":
-        list.sort((a,b) => b.lastActivityAt.localeCompare(a.lastActivityAt));
+      case 'Active':
+        list.sort((a, b) => b.lastActivityAt.localeCompare(a.lastActivityAt));
         break;
-      case "Top":
+      case 'Top':
       default:
-        list.sort((a,b) => (b.voteCount - a.voteCount)
-          || (b.commentCount - a.commentCount)
-          || b.lastActivityAt.localeCompare(a.lastActivityAt));
+        list.sort(
+          (a, b) =>
+            b.voteCount - a.voteCount ||
+            b.commentCount - a.commentCount ||
+            b.lastActivityAt.localeCompare(a.lastActivityAt)
+        );
     }
     return list;
-  }
+  };
 
   const updatePostSort = (method) => {
     const [...resortedPosts] = posts;
     sortPosts(method, resortedPosts);
     setPosts(resortedPosts);
-  }
+  };
 
-  const showAddDialog = () => {
-    setDialogVisible(true);
-  }
+  const getTitleText = () => {
+    if (showSort) {
+      return `${sort} argots`;
+    }
+    return makeTitleText();
+  };
 
-  const hideAddDialog = () => {
-    setDialogVisible(false);
-  }
+  const fetchPostList = async () => {
+    const postList = await fetchPosts();
+    if (postList.length) {
+      sortPosts(defaultSort, postList);
+    }
+    setPosts(postList);
+  };
 
-  async function createPost(values) {
+  useEffect(() => {
+    fetchPostList();
+  }, []);
+
+  const createPost = async (values) => {
     const date = new Date();
     const user = await Auth.currentAuthenticatedUser();
     const params = {
@@ -73,38 +90,31 @@ const PostList = (props) => {
       lastActivityAt: date.toISOString(),
       voteCount: 0,
       commentCount: 0,
-      userID: user.attributes.sub
+      userID: user.attributes.sub,
     };
     const newPost = await API.graphql({
       query: createPostMutation,
-      variables: { input: params }
+      variables: { input: params },
     });
     // redirect user to new page with snackbar
-    navigate(`./post/${newPost.data.createPost.id}`, { state: { successText: "Argot created!" } })
-  }
-
-  const makeTitleText = () => {
-    if (props.showSort) {
-      return `${sort} argots`;
-    }
-    else {
-      return props.makeTitleText();
-    }
-  }
+    navigate(`./post/${newPost.data.createPost.id}`, {
+      state: { successText: 'Argot created!' },
+    });
+  };
 
   return (
     <div className="postList">
       <PostListHeader
         className="listHeader"
-        titleText={makeTitleText()}
-        showSort={props.showSort}
-        showAdd={props.showAdd}
+        titleText={getTitleText()}
+        showSort={showSort}
+        showAdd={showAdd}
         sortChangeHandler={updatePostSort}
         addPostHandler={showAddDialog}
       />
       <div className="postList">
         {posts.length ? (
-          posts.map(post => (
+          posts.map((post) => (
             <Link to={`/post/${post.id}`}>
               <Post
                 key={post.id}
@@ -134,5 +144,19 @@ const PostList = (props) => {
     </div>
   );
 }
+
+PostList.propTypes = {
+  fetchPosts: PropTypes.func.isRequired,
+  makeTitleText: requiredIf(PropTypes.func, (props) => !props.showSort),
+  showSort: PropTypes.bool,
+  showAdd: PropTypes.bool,
+  defaultSort: PropTypes.oneOf(['Top', 'New', 'Active']).isRequired,
+};
+
+PostList.defaultProps = {
+  makeTitleText: null,
+  showSort: false,
+  showAdd: false,
+};
 
 export default PostList;

@@ -1,196 +1,210 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import requiredIf from 'react-required-if';
+import { Link as RouterLink } from 'react-router-dom';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
-import { getPost } from 'graphql/queries';
-import { updatePost, createPostVote, deletePostVote } from 'graphql/mutations';
-import { Link as RouterLink } from 'react-router-dom';
+import { Card, CardContent, Grid, Link, Typography } from '@mui/material';
 import UseAnimations from 'react-useanimations';
 import heart from 'react-useanimations/lib/heart';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import { getPost } from 'graphql/queries';
+import { updatePost, createPostVote, deletePostVote } from 'graphql/mutations';
 import ActionMenu from 'components/ActionMenu/ActionMenu';
 import './Post.css';
 
-// { // PROPS
-//   isPreview, // hide content field, report or edit/delete actions
-//   id,
-//   username,
-//   title,
-//   subtitle,
-//   content,
-//   voteCount,
-//   commentCount,
-//   contentAge,
-//   isLiked,
-//   isOwnedByUser
-// }
+function Post({
+  isPreview,
+  id,
+  username,
+  title,
+  subtitle,
+  content,
+  voteCount,
+  commentCount,
+  contentAge,
+  isLiked,
+  isOwnedByUser,
+  editPostHandler,
+  deletePostHandler,
+}) {
+  const [liked, setLiked] = useState(isLiked);
+  const [displayLikes, setDisplayLikes] = useState(voteCount);
 
-class Post extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      liked: props.isLiked,
-      displayLikes: props.voteCount
-    };
-  }
-
-  async updateVoteCount(oldVoteCount, change) {
+  async function updateVoteCount(oldVoteCount, change) {
     const updatedPostParams = {
-      id: this.props.id,
-      voteCount: oldVoteCount + change
+      id,
+      voteCount: oldVoteCount + change,
     };
     await API.graphql({
       query: updatePost,
-      variables: {input: updatedPostParams }
+      variables: { input: updatedPostParams },
     });
   }
 
-  async setLiked(isLiked) {
+  async function setPostLiked(isPostLiked) {
     // frontend changes are behaviourally driven
-    this.setState({ liked: isLiked });
-    this.setState((prevState) => ({
-      displayLikes: prevState.displayLikes + (isLiked ? 1 : -1)
-    }));
+    setLiked(isPostLiked);
+    setDisplayLikes(
+      (prevDisplayLikes) => prevDisplayLikes + (isPostLiked ? 1 : -1)
+    );
 
     // backend changes are logically driven
     const user = await Auth.currentAuthenticatedUser();
     const postData = await API.graphql({
       query: getPost,
-      variables: { id: this.props.id }
+      variables: { id },
     });
-    const existingVote = postData.data.getPost.votes.items
-                        .find(vote => vote.userID === user.attributes.sub);
+    const existingVote = postData.data.getPost.votes.items.find(
+      (vote) => vote.userID === user.attributes.sub
+    );
     if (isLiked === true) {
       // create new PostVote record if none exists already
       if (!existingVote) {
         const date = new Date();
         const voteParams = {
           userID: user.attributes.sub,
-          postID: this.props.id,
-          createdAt: date.toISOString()
+          postID: id,
+          createdAt: date.toISOString(),
         };
         await API.graphql({
           query: createPostVote,
-          variables: { input: voteParams }
+          variables: { input: voteParams },
         });
         // update post voteCount in db
-        this.updateVoteCount(postData.data.getPost.voteCount, 1);
+        updateVoteCount(postData.data.getPost.voteCount, 1);
       }
-    }
-    else {
+    } else if (existingVote) {
       // delete from PostVote if already there
-      if (existingVote) {
-        await API.graphql({
-          query: deletePostVote,
-          variables: { input: { id: existingVote.id } }
-        });
-        // update post voteCount in db
-        this.updateVoteCount(postData.data.getPost.voteCount, -1);
-      }
+      await API.graphql({
+        query: deletePostVote,
+        variables: { input: { id: existingVote.id } },
+      });
+      // update post voteCount in db
+      updateVoteCount(postData.data.getPost.voteCount, -1);
     }
   }
 
-  render() {
-    return(
-      <Card className="postCard" variant="outlined">
-        <CardContent sx={{
-          "&:last-child": {
-            paddingBottom: "16px"
+  return (
+    <Card className="postCard" variant="outlined">
+      <CardContent
+        sx={{
+          '&:last-child': {
+            paddingBottom: '16px',
           },
-        }}>
-          <Grid container spacing={2}>
-            <Grid container item spacing={2}>
-              <Grid item sm={1.125} xs={2}>
-              </Grid>
-              <Grid item sm={10.875} xs={10}>
-                <div className="postMetaContainer">
-                  <Typography
-                    className="postMeta"
-                    variant="subtitle1"
-                    color="text.secondary"
-                    flexGrow={1}
-                  >
-                    <Link
-                      component={RouterLink}
-                      to={`/user/${this.props.username}`}
-                      color="inherit"
-                      underline="hover"
-                    >
-                      {this.props.username}
-                    </Link>
-                    {" · "}
-                    {this.props.contentAge}
-                  </Typography>
-                  {!this.props.isPreview &&
-                    <span className="postActions">
-                      <ActionMenu
-                        isOwnedByUser={this.props.isOwnedByUser}
-                        editPostHandler={this.props.editPostHandler}
-                        deletePostHandler={this.props.deletePostHandler}
-                      />
-                    </span>
-                  }
-                </div>
-              </Grid>
-            </Grid>
-            <Grid container item spacing={2}>
-              <Grid item sm={1.125} xs={2}>
-              <UseAnimations
-                className="heartButton"
-                reverse={this.state.liked}
-                onClick={(event) => {
-                  event.preventDefault();
-                  this.setLiked(!this.state.liked);
-                }}
-                size={40}
-                strokeColor={"var(--argotique-red)"}
-                pathCss={"fill:var(--argotique-red)"}
-                animation={heart}
-                wrapperStyle={{ marginTop: "-4px" }}
-              />
-              </Grid>
-              <Grid item sm={10.875} xs={10}>
-                {this.props.isPreview ? (
-                  <Typography className="postTitle" variant="h5">
-                    {this.props.title}
-                  </Typography>
-                ) : (
-                  <div className="postContent">
-                    <Typography className="postTitle" variant="h5" gutterBottom>
-                      {this.props.title} 🇫🇷
-                    </Typography>
-                    <Typography className="postSubtitle" variant="h6" gutterBottom>
-                      {this.props.subtitle} 🇬🇧
-                    </Typography>
-                    <Typography className="postText" variant="body1" paragraph>
-                      {this.props.content}
-                    </Typography>
-                  </div>
-                )}
-              </Grid>
-            </Grid>
-            <Grid container item spacing={2}>
-              <Grid item sm={1.125} xs={2}>
-              </Grid>
-              <Grid item sm={10.875} xs={10}>
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid container item spacing={2}>
+            <Grid item sm={1.125} xs={2} />
+            <Grid item sm={10.875} xs={10}>
+              <div className="postMetaContainer">
                 <Typography
-                  className="postMetrics"
+                  className="postMeta"
                   variant="subtitle1"
+                  color="text.secondary"
+                  flexGrow={1}
                 >
-                  {this.state.displayLikes} {this.state.displayLikes === 1 ? "like" : "likes"}
-                  {" · "}
-                  {this.props.commentCount} {this.props.commentCount === 1 ? "comment" : "comments"}
+                  <Link
+                    component={RouterLink}
+                    to={`/user/${username}`}
+                    color="inherit"
+                    underline="hover"
+                  >
+                    {username}
+                  </Link>
+                  {' · '}
+                  {contentAge}
                 </Typography>
-              </Grid>
+                {!isPreview && (
+                  <span className="postActions">
+                    <ActionMenu
+                      isOwnedByUser={isOwnedByUser}
+                      editPostHandler={editPostHandler}
+                      deletePostHandler={deletePostHandler}
+                    />
+                  </span>
+                )}
+              </div>
             </Grid>
           </Grid>
-        </CardContent>
-      </Card>
-    )
-  }
+          <Grid container item spacing={2}>
+            <Grid item sm={1.125} xs={2}>
+              <UseAnimations
+                className="heartButton"
+                reverse={liked}
+                onClick={(event) => {
+                  event.preventDefault();
+                  setPostLiked(!liked);
+                }}
+                size={40}
+                strokeColor="var(--argotique-red)"
+                pathCss="fill:var(--argotique-red)"
+                animation={heart}
+                wrapperStyle={{ marginTop: '-4px' }}
+              />
+            </Grid>
+            <Grid item sm={10.875} xs={10}>
+              {isPreview ? (
+                <Typography className="postTitle" variant="h5">
+                  {title}
+                </Typography>
+              ) : (
+                <div className="postContent">
+                  <Typography className="postTitle" variant="h5" gutterBottom>
+                    {title} 🇫🇷
+                  </Typography>
+                  <Typography
+                    className="postSubtitle"
+                    variant="h6"
+                    gutterBottom
+                  >
+                    {subtitle} 🇬🇧
+                  </Typography>
+                  <Typography className="postText" variant="body1" paragraph>
+                    {content}
+                  </Typography>
+                </div>
+              )}
+            </Grid>
+          </Grid>
+          <Grid container item spacing={2}>
+            <Grid item sm={1.125} xs={2} />
+            <Grid item sm={10.875} xs={10}>
+              <Typography className="postMetrics" variant="subtitle1">
+                {displayLikes} {displayLikes === 1 ? 'like' : 'likes'}
+                {' · '}
+                {commentCount} {commentCount === 1 ? 'comment' : 'comments'}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
 }
+
+Post.propTypes = {
+  isPreview: PropTypes.bool,
+  id: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  content: PropTypes.string,
+  voteCount: PropTypes.string.isRequired,
+  commentCount: PropTypes.string.isRequired,
+  contentAge: PropTypes.string.isRequired,
+  isLiked: PropTypes.string.isRequired,
+  isOwnedByUser: requiredIf(PropTypes.string, (props) => !props.isPreview),
+  editPostHandler: requiredIf(PropTypes.func, (props) => !props.isPreview),
+  deletePostHandler: requiredIf(PropTypes.func, (props) => !props.isPreview),
+};
+
+Post.defaultProps = {
+  isPreview: false,
+  content: '',
+  isOwnedByUser: false,
+  editPostHandler: null,
+  deletePostHandler: null,
+};
 
 export default Post;

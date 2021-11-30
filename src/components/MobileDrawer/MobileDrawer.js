@@ -1,16 +1,14 @@
-import React from 'react';
-import { useState } from 'react';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import React, { useState } from 'react';
+import { Drawer, IconButton } from '@mui/material';
+import { MenuOutlined } from '@mui/icons-material';
 import DrawerMenu from 'components/DrawerMenu/DrawerMenu';
 
-const MobileDrawer = () => {
+function MobileDrawer() {
   const [drawerOpen, setDrawerOpen] = useState();
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
-  }
+  };
 
   return (
     <div>
@@ -19,22 +17,22 @@ const MobileDrawer = () => {
         onClick={toggleDrawer}
         aria-label="more"
         aria-controls="action-menu"
-        aria-expanded={drawerOpen ? "true" : undefined}
+        aria-expanded={drawerOpen ? 'true' : undefined}
         aria-haspopup="true"
       >
-        <MenuOutlinedIcon color="secondary" />
+        <MenuOutlined color="secondary" />
       </IconButton>
       <Drawer
-        anchor={"right"}
+        anchor="right"
         open={drawerOpen}
         onClose={toggleDrawer}
         sx={{
-          "& .MuiDrawer-paper": {
-            minWidth: "var(--argotique-drawer-min-width)"
-          }
+          '& .MuiDrawer-paper': {
+            minWidth: 'var(--argotique-drawer-min-width)',
+          },
         }}
       >
-        <DrawerMenu handleDrawerItemClick={toggleDrawer}/>
+        <DrawerMenu handleDrawerItemClick={toggleDrawer} />
       </Drawer>
     </div>
   );

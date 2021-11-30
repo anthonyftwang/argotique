@@ -1,0 +1,6 @@
+/amplify/**
+/node_modules/**
+/build/**
+/coverage/**
+/docs/**
+/jsdoc/**

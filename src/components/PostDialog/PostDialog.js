@@ -1,74 +1,88 @@
+/* eslint-disable */
+
 import React from 'react';
+import PropTypes from 'prop-types';
+import TextField from '@mui/material/TextField';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  AppBar,
+  Toolbar,
+  Typography,
+  Slide,
+  Fade,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import TextField from '@mui/material/TextField';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Slide from '@mui/material/Slide';
-import Fade from '@mui/material/Fade';
 import './PostDialog.css';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
+  console.log(props);
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const PostDialog = (props) => {
+function PostDialog({
+  title,
+  subtitle,
+  content,
+  open,
+  onClose,
+  onSubmitHandler,
+  newPost,
+}) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const formik = useFormik({
     initialValues: {
-      title: props.title,
-      subtitle: props.subtitle,
-      content: props.content,
+      title,
+      subtitle,
+      content,
     },
     validationSchema: Yup.object({
       title: Yup.string()
-        .max(150, "Must be 150 characters or less")
-        .required("Required"),
+        .max(150, 'Must be 150 characters or less')
+        .required('Required'),
       subtitle: Yup.string()
-        .max(150, "Must be 150 characters or less")
-        .required("Required"),
+        .max(150, 'Must be 150 characters or less')
+        .required('Required'),
       content: Yup.string()
-        .max(500, "Must be 500 characters or less")
+        .max(500, 'Must be 500 characters or less')
         .nullable(),
     }),
-    onSubmit: values => {
-      props.onSubmitHandler(values);
-      closeDialog();
+    onSubmit: (values) => {
+      onSubmitHandler(values);
+      closeDialog(formik.resetForm);
     },
   });
 
   const closeDialog = (event, reason) => {
-    if (reason === "backdropClick") {
+    if (reason === 'backdropClick') {
       return;
     }
-    props.onClose();
+    onClose();
     formik.resetForm();
-  }
+  };
 
-  return(
+  return (
     <Dialog
       fullScreen={fullScreen}
-      open={props.open}
+      open={open}
       onClose={closeDialog}
-      TransitionComponent={fullScreen ? Transition : Fade}
+      TransitionComponent={fullScreen ? Slide : Fade}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="postForm">
           {fullScreen ? (
-            <AppBar elevation={0} sx={{ position: "relative" }}>
+            <AppBar elevation={0} sx={{ position: 'relative' }}>
               <Toolbar>
                 <IconButton
                   edge="start"
@@ -76,10 +90,14 @@ const PostDialog = (props) => {
                   onClick={closeDialog}
                   aria-label="close"
                 >
-                  <CloseIcon />
+                  <Close />
                 </IconButton>
-                <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                  {props.newPost ? "New post" : "Edit post"}
+                <Typography
+                  sx={{ ml: 2, flex: 1 }}
+                  variant="h6"
+                  component="div"
+                >
+                  {newPost ? 'New post' : 'Edit post'}
                 </Typography>
                 <Button
                   type="submit"
@@ -87,18 +105,17 @@ const PostDialog = (props) => {
                   disabled={!(formik.isValid && formik.dirty)}
                 >
                   Submit
-              </Button>
+                </Button>
               </Toolbar>
             </AppBar>
           ) : (
-            <DialogTitle>
-              {props.newPost ? "New post" : "Edit post"}
-            </DialogTitle>
+            <DialogTitle>{newPost ? 'New post' : 'Edit post'}</DialogTitle>
           )}
           <DialogContent>
             <DialogContentText>
-              Share a useful phrase or a common slang expression!
-              Include an explanation to describe its origin and the kind of situation it's used in.
+              Share a useful phrase or a common slang expression! Include an
+              explanation to describe its origin and the kind of situation
+              it&#39;s used in.
             </DialogContentText>
             <TextField
               autoFocus={!fullScreen}
@@ -111,9 +128,9 @@ const PostDialog = (props) => {
               variant="standard"
               value={formik.values.title}
               onChange={formik.handleChange}
-              error={formik.errors.title && formik.errors.title !== "Required"}
+              error={formik.errors.title && formik.errors.title !== 'Required'}
             />
-            {formik.errors.title && formik.errors.title !== "Required" ? (
+            {formik.errors.title && formik.errors.title !== 'Required' ? (
               <div className="postError">{formik.errors.title}</div>
             ) : null}
             <TextField
@@ -126,9 +143,11 @@ const PostDialog = (props) => {
               variant="standard"
               value={formik.values.subtitle}
               onChange={formik.handleChange}
-              error={formik.errors.subtitle && formik.errors.subtitle !== "Required"}
+              error={
+                formik.errors.subtitle && formik.errors.subtitle !== 'Required'
+              }
             />
-            {formik.errors.subtitle && formik.errors.subtitle !== "Required" ? (
+            {formik.errors.subtitle && formik.errors.subtitle !== 'Required' ? (
               <div className="postError">{formik.errors.subtitle}</div>
             ) : null}
             <TextField
@@ -147,11 +166,9 @@ const PostDialog = (props) => {
               <div className="postError">{formik.errors.content}</div>
             ) : null}
           </DialogContent>
-          {!fullScreen &&
+          {!fullScreen && (
             <DialogActions>
-              <Button onClick={closeDialog}>
-                Cancel
-              </Button>
+              <Button onClick={closeDialog}>Cancel</Button>
               <Button
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
@@ -159,11 +176,28 @@ const PostDialog = (props) => {
                 Submit
               </Button>
             </DialogActions>
-          }
+          )}
         </div>
       </form>
     </Dialog>
   );
 }
+
+PostDialog.propTypes = {
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  content: PropTypes.string,
+  open: PropTypes.string.isRequired,
+  onClose: PropTypes.string.isRequired,
+  onSubmitHandler: PropTypes.string.isRequired,
+  newPost: PropTypes.string,
+};
+
+PostDialog.defaultProps = {
+  title: '',
+  subtitle: '',
+  content: '',
+  newPost: false,
+};
 
 export default PostDialog;

@@ -1,34 +1,40 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import AppBar from '@mui/material/AppBar';
 import PropTypes from 'prop-types';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  useScrollTrigger,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
 import { MessageCircle } from 'react-feather';
 import MobileDrawer from 'components/MobileDrawer/MobileDrawer';
 import './Nav.css';
 
-function ElevationScroll(props) {
+function ElevationScroll({ children }) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
   });
 
-  return React.cloneElement(props.children, {
+  return React.cloneElement(children, {
     elevation: trigger ? 4 : 0,
   });
 }
 
-const Nav = (props) => {
+ElevationScroll.propTypes = {
+  children: PropTypes.element.isRequired,
+};
+
+function Nav() {
   const theme = useTheme();
   const showTempDrawer = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <nav>
-      <ElevationScroll {...props}>
+      <ElevationScroll>
         <AppBar>
           <Toolbar>
             <div className="appBannerContainer">
@@ -47,7 +53,7 @@ const Nav = (props) => {
       </ElevationScroll>
       <Toolbar />
     </nav>
-  )
+  );
 }
 
 export default Nav;

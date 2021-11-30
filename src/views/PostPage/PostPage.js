@@ -1,60 +1,83 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { API } from 'aws-amplify';
 import Auth from '@aws-amplify/auth';
-import { getPost, listComments } from 'graphql/queries';
-import { updatePost as updatePostMutation, deletePost as deletePostMutation, createComment as createCommentMutation } from 'graphql/mutations';
-import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { getPost, listComments } from 'graphql/queries';
+import {
+  updatePost as updatePostMutation,
+  deletePost as deletePostMutation,
+  createComment as createCommentMutation,
+} from 'graphql/mutations';
 import Post from 'components/Post/Post';
 import Comment from 'components/Comment/Comment';
 import CommentForm from 'components/CommentForm/CommentForm';
-import Loading from 'components/Loding/Loading';
+import Loading from 'components/Loading/Loading';
 import PostDialog from 'components/PostDialog/PostDialog';
 import DeleteDialog from 'components/DeleteDialog/DeleteDialog';
 import './PostPage.css';
 
-const PostPage = (props) => {
+function PostPage({ successSnackbarHandler }) {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
   const [editDialogVisible, setEditDialogVisible] = useState();
   const [deleteDialogVisible, setDeleteDialogVisible] = useState();
-  const location  = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchPostAndComments();
-  }, []);
+  const showEditDialog = () => {
+    setEditDialogVisible(true);
+  };
+
+  const hideEditDialog = () => {
+    setEditDialogVisible(false);
+  };
+
+  const showDeleteDialog = () => {
+    setDeleteDialogVisible(true);
+  };
+
+  const hideDeleteDialog = () => {
+    setDeleteDialogVisible(false);
+  };
 
   async function fetchPostAndComments() {
     const postData = await API.graphql({
       query: getPost,
-      variables: { id: location.pathname.split("/").pop() }
+      variables: { id: location.pathname.split('/').pop() },
     });
     const user = await Auth.currentAuthenticatedUser();
     if (postData.data.getPost) {
-      const post = {
+      const fetchedPost = {
         ...postData.data.getPost,
-        isLiked: postData.data.getPost.votes.items.some(vote => vote.userID === user.attributes.sub),
-        isOwnedByUser: postData.data.getPost.user.id === user.attributes.sub
-      }
+        isLiked: postData.data.getPost.votes.items.some(
+          (vote) => vote.userID === user.attributes.sub
+        ),
+        isOwnedByUser: postData.data.getPost.user.id === user.attributes.sub,
+      };
       // only fetch comments if post query succeeded
       const commentData = await API.graphql({
         query: listComments,
         variables: {
           filter: {
-            postID: { eq: post.id}
-          }
-        }
-      })
-      setPost(post);
-      const comments = commentData.data.listComments.items
-        .sort((a,b) => b.createdAt.localeCompare(a.createdAt));
-      setComments(comments);
+            postID: { eq: fetchedPost.id },
+          },
+        },
+      });
+      setPost(fetchedPost);
+      const fetchedComments = commentData.data.listComments.items.sort((a, b) =>
+        b.createdAt.localeCompare(a.createdAt)
+      );
+      setComments(fetchedComments);
     }
   }
 
-  async function createComment(comment) {
+  useEffect(() => {
+    fetchPostAndComments();
+  }, []);
+
+  const createComment = async (comment) => {
     const date = new Date();
     const user = await Auth.currentAuthenticatedUser();
     const params = {
@@ -62,43 +85,27 @@ const PostPage = (props) => {
       createdAt: date.toISOString(),
       updatedAt: date.toISOString(),
       userID: user.attributes.sub,
-      postID: post.id
+      postID: post.id,
     };
     await API.graphql({
       query: createCommentMutation,
-      variables: { input: params }
+      variables: { input: params },
     });
     // also update comment count and activity
     const updatedPostParams = {
       id: post.id,
       commentCount: post.commentCount + 1,
-      lastActivityAt: date.toISOString()
+      lastActivityAt: date.toISOString(),
     };
     await API.graphql({
       query: updatePostMutation,
-      variables: {input: updatedPostParams }
+      variables: { input: updatedPostParams },
     });
     fetchPostAndComments();
-    props.successSnackbarHandler("Comment submitted!");
-  }
+    successSnackbarHandler('Comment submitted!');
+  };
 
-  const showEditDialog = () => {
-    setEditDialogVisible(true);
-  }
-
-  const hideEditDialog = () => {
-    setEditDialogVisible(false);
-  }
-
-  const showDeleteDialog = () => {
-    setDeleteDialogVisible(true);
-  }
-
-  const hideDeleteDialog = () => {
-    setDeleteDialogVisible(false);
-  }
-
-  async function updatePost(values) {
+  const updatePost = async (values) => {
     const date = new Date();
     const updatedPostParams = {
       id: post.id,
@@ -106,23 +113,23 @@ const PostPage = (props) => {
       subtitle: values.subtitle,
       content: values.content,
       updatedAt: date.toISOString(),
-      lastActivityAt: date.toISOString()
+      lastActivityAt: date.toISOString(),
     };
     await API.graphql({
       query: updatePostMutation,
-      variables: {input: updatedPostParams }
+      variables: { input: updatedPostParams },
     });
     fetchPostAndComments();
-    props.successSnackbarHandler("Argot updated!");
-  }
+    successSnackbarHandler('Argot updated!');
+  };
 
-  async function deletePost() {
+  const deletePost = async () => {
     await API.graphql({
       query: deletePostMutation,
-      variables: { input: { id: post.id } }
+      variables: { input: { id: post.id } },
     });
-    navigate("/", { state: { successText: "Post deleted!" } });
-  }
+    navigate('/', { state: { successText: 'Post deleted!' } });
+  };
 
   return (
     <div className="postPageContainer">
@@ -147,7 +154,7 @@ const PostPage = (props) => {
           <div className="commentsList">
             <CommentForm onSubmitHandler={createComment} />
             {!!comments.length &&
-              comments.map(comment => (
+              comments.map((comment) => (
                 <Comment
                   className="postComment"
                   key={comment.id}
@@ -155,8 +162,7 @@ const PostPage = (props) => {
                   username={comment.user.name}
                   contentAge={moment(comment.createdAt).fromNow()}
                 />
-              ))
-            }
+              ))}
           </div>
           <PostDialog
             key={post.updatedAt}
@@ -178,7 +184,11 @@ const PostPage = (props) => {
         <Loading isPreview={false} />
       )}
     </div>
-  )
+  );
 }
+
+PostPage.propTypes = {
+  successSnackbarHandler: PropTypes.func.isRequired,
+};
 
 export default PostPage;
