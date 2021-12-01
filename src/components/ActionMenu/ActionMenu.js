@@ -66,13 +66,13 @@ function ActionMenu({ isOwnedByUser, editPostHandler, deletePostHandler }) {
           <ListItemIcon>
             <Edit fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Edit post</ListItemText>
+          <ListItemText>Edit argot</ListItemText>
         </MenuItem>
         <MenuItem disabled={!isOwnedByUser} onClick={handleDelete}>
           <ListItemIcon>
             <Delete fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Delete post</ListItemText>
+          <ListItemText>Delete argot</ListItemText>
         </MenuItem>
       </Menu>
     </div>

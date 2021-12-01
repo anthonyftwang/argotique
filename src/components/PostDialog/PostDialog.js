@@ -97,7 +97,7 @@ function PostDialog({
                   variant="h6"
                   component="div"
                 >
-                  {newPost ? 'New post' : 'Edit post'}
+                  {newPost ? 'New argot' : 'Edit argot'}
                 </Typography>
                 <Button
                   type="submit"
@@ -109,7 +109,7 @@ function PostDialog({
               </Toolbar>
             </AppBar>
           ) : (
-            <DialogTitle>{newPost ? 'New post' : 'Edit post'}</DialogTitle>
+            <DialogTitle>{newPost ? 'New argot' : 'Edit argot'}</DialogTitle>
           )}
           <DialogContent>
             <DialogContentText>

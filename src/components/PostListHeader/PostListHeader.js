@@ -76,8 +76,8 @@ function PostListHeader({
           </div>
         )}
         {showAdd && (
-          <Tooltip title="New post">
-            <IconButton aria-label="new post" onClick={handleClickAddButton}>
+          <Tooltip title="New argot">
+            <IconButton aria-label="new argot" onClick={handleClickAddButton}>
               <Add />
             </IconButton>
           </Tooltip>

@@ -128,7 +128,7 @@ function PostPage({ successSnackbarHandler }) {
       query: deletePostMutation,
       variables: { input: { id: post.id } },
     });
-    navigate('/', { state: { successText: 'Post deleted!' } });
+    navigate('/', { state: { successText: 'Argot deleted!' } });
   };
 
   return (
