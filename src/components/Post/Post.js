@@ -57,7 +57,7 @@ function Post({
     const existingVote = postData.data.getPost.votes.items.find(
       (vote) => vote.userID === user.attributes.sub
     );
-    if (isLiked === true) {
+    if (isPostLiked === true) {
       // create new PostVote record if none exists already
       if (!existingVote) {
         const date = new Date();
