@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { API } from 'aws-amplify';
-import Auth from '@aws-amplify/auth';
 import moment from 'moment';
-import { getPost, listComments } from 'graphql/queries';
 import {
-  updatePost as updatePostMutation,
-  deletePost as deletePostMutation,
-  createComment as createCommentMutation,
-} from 'graphql/mutations';
+  getPostService,
+  updatePostContentService,
+  deletePostService,
+  updatePostCommentCountService,
+} from 'services/Post/Post.service';
+import {
+  listCommentsService,
+  createCommentService,
+} from 'services/Comment/Comment.service';
+import { getCurrentUserService } from 'services/User/User.service';
 import Post from 'components/Post/Post';
 import Comment from 'components/Comment/Comment';
 import CommentForm from 'components/CommentForm/CommentForm';
@@ -42,34 +45,26 @@ function PostPage({ successSnackbarHandler }) {
     setDeleteDialogVisible(false);
   };
 
+  const sortComments = (list) => {
+    // TODO - pagination with server-side sorting
+    list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    return list;
+  };
+
   async function fetchPostAndComments() {
-    const postData = await API.graphql({
-      query: getPost,
-      variables: { id: location.pathname.split('/').pop() },
-    });
-    const user = await Auth.currentAuthenticatedUser();
-    if (postData.data.getPost) {
-      const fetchedPost = {
-        ...postData.data.getPost,
-        isLiked: postData.data.getPost.votes.items.some(
-          (vote) => vote.userID === user.attributes.sub
-        ),
-        isOwnedByUser: postData.data.getPost.user.id === user.attributes.sub,
-      };
+    const user = await getCurrentUserService();
+    const postData = await getPostService(
+      location.pathname.split('/').pop(),
+      user.id
+    );
+    if (postData) {
       // only fetch comments if post query succeeded
-      const commentData = await API.graphql({
-        query: listComments,
-        variables: {
-          filter: {
-            postID: { eq: fetchedPost.id },
-          },
-        },
-      });
-      setPost(fetchedPost);
-      const fetchedComments = commentData.data.listComments.items.sort((a, b) =>
-        b.createdAt.localeCompare(a.createdAt)
-      );
-      setComments(fetchedComments);
+      const commentData = await listCommentsService(postData.id);
+      if (commentData.length) {
+        sortComments(commentData);
+      }
+      setPost(postData);
+      setComments(commentData);
     }
   }
 
@@ -78,56 +73,23 @@ function PostPage({ successSnackbarHandler }) {
   }, []);
 
   const createComment = async (comment) => {
-    const date = new Date();
-    const user = await Auth.currentAuthenticatedUser();
-    const params = {
-      content: comment,
-      createdAt: date.toISOString(),
-      updatedAt: date.toISOString(),
-      userID: user.attributes.sub,
-      postID: post.id,
-    };
-    await API.graphql({
-      query: createCommentMutation,
-      variables: { input: params },
-    });
+    const user = await getCurrentUserService();
+    await createCommentService(comment, user.id, post.id);
+
     // also update comment count and activity
-    const updatedPostParams = {
-      id: post.id,
-      commentCount: post.commentCount + 1,
-      lastActivityAt: date.toISOString(),
-    };
-    await API.graphql({
-      query: updatePostMutation,
-      variables: { input: updatedPostParams },
-    });
+    await updatePostCommentCountService(post.id, post.commentCount + 1);
     fetchPostAndComments();
     successSnackbarHandler('Comment submitted!');
   };
 
-  const updatePost = async (values) => {
-    const date = new Date();
-    const updatedPostParams = {
-      id: post.id,
-      title: values.title,
-      subtitle: values.subtitle,
-      content: values.content,
-      updatedAt: date.toISOString(),
-      lastActivityAt: date.toISOString(),
-    };
-    await API.graphql({
-      query: updatePostMutation,
-      variables: { input: updatedPostParams },
-    });
+  const updatePost = async ({ title, subtitle, content }) => {
+    await updatePostContentService(post.id, title, subtitle, content);
     fetchPostAndComments();
     successSnackbarHandler('Argot updated!');
   };
 
   const deletePost = async () => {
-    await API.graphql({
-      query: deletePostMutation,
-      variables: { input: { id: post.id } },
-    });
+    await deletePostService(post.id);
     navigate('/', { state: { successText: 'Argot deleted!' } });
   };
 

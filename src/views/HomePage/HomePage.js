@@ -1,27 +1,12 @@
 import React from 'react';
-import { API } from 'aws-amplify';
-import Auth from '@aws-amplify/auth';
-import { listPostVotes, listPosts } from 'graphql/queries';
+import { listAllPostsService } from 'services/Post/Post.service';
+import { getCurrentUserService } from 'services/User/User.service';
 import PostList from 'components/PostList/PostList';
 
 function HomePage() {
   const fetchAllPosts = async () => {
-    const postData = await API.graphql({ query: listPosts });
-    const user = await Auth.currentAuthenticatedUser();
-    const likeData = await API.graphql({
-      query: listPostVotes,
-      variables: {
-        filter: {
-          userID: { eq: user.attributes.sub },
-        },
-      },
-    });
-    const posts = postData.data.listPosts.items.map((post) => ({
-      ...post,
-      isLiked: likeData.data.listPostVotes.items.some(
-        (like) => like.postID === post.id
-      ),
-    }));
+    const user = await getCurrentUserService();
+    const posts = await listAllPostsService(user.id);
     return posts;
   };
 

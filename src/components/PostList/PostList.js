@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import requiredIf from 'react-required-if';
 import { Link, useNavigate } from 'react-router-dom';
-import { API } from 'aws-amplify';
-import Auth from '@aws-amplify/auth';
 import moment from 'moment';
-import { createPost as createPostMutation } from 'graphql/mutations';
+import { createPostService } from 'services/Post/Post.service';
+import { getCurrentUserService } from 'services/User/User.service';
 import Post from 'components/Post/Post';
 import Loading from 'components/Loading/Loading';
 import PostListHeader from 'components/PostListHeader/PostListHeader';
@@ -78,26 +77,11 @@ function PostList({
     fetchPostList();
   }, []);
 
-  const createPost = async (values) => {
-    const date = new Date();
-    const user = await Auth.currentAuthenticatedUser();
-    const params = {
-      title: values.title,
-      subtitle: values.subtitle,
-      content: values.content,
-      createdAt: date.toISOString(),
-      updatedAt: date.toISOString(),
-      lastActivityAt: date.toISOString(),
-      voteCount: 0,
-      commentCount: 0,
-      userID: user.attributes.sub,
-    };
-    const newPost = await API.graphql({
-      query: createPostMutation,
-      variables: { input: params },
-    });
+  const createPost = async ({ title, subtitle, content }) => {
+    const user = await getCurrentUserService();
+    const newPost = await createPostService(title, subtitle, content, user.id);
     // redirect user to new page with snackbar
-    navigate(`./post/${newPost.data.createPost.id}`, {
+    navigate(`./post/${newPost.id}`, {
       state: { successText: 'Argot created!' },
     });
   };

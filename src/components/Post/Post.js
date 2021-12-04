@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import requiredIf from 'react-required-if';
 import { Link as RouterLink } from 'react-router-dom';
-import { API } from 'aws-amplify';
-import Auth from '@aws-amplify/auth';
 import { Card, CardContent, Grid, Link, Typography } from '@mui/material';
 import UseAnimations from 'react-useanimations';
 import heart from 'react-useanimations/lib/heart';
-import { getPost } from 'graphql/queries';
-import { updatePost, createPostVote, deletePostVote } from 'graphql/mutations';
+import {
+  getPostService,
+  updatePostVoteCountService,
+} from 'services/Post/Post.service';
+import {
+  createPostVoteService,
+  deletePostVoteService,
+} from 'services/Vote/Vote.service';
+import { getCurrentUserService } from 'services/User/User.service';
 import ActionMenu from 'components/ActionMenu/ActionMenu';
 import './Post.css';
 
@@ -30,17 +35,6 @@ function Post({
   const [liked, setLiked] = useState(isLiked);
   const [displayLikes, setDisplayLikes] = useState(voteCount);
 
-  async function updateVoteCount(oldVoteCount, change) {
-    const updatedPostParams = {
-      id,
-      voteCount: oldVoteCount + change,
-    };
-    await API.graphql({
-      query: updatePost,
-      variables: { input: updatedPostParams },
-    });
-  }
-
   async function setPostLiked(isPostLiked) {
     // frontend changes are behaviourally driven
     setLiked(isPostLiked);
@@ -49,38 +43,25 @@ function Post({
     );
 
     // backend changes are logically driven
-    const user = await Auth.currentAuthenticatedUser();
-    const postData = await API.graphql({
-      query: getPost,
-      variables: { id },
-    });
-    const existingVote = postData.data.getPost.votes.items.find(
-      (vote) => vote.userID === user.attributes.sub
+    const user = await getCurrentUserService();
+    const postData = await getPostService(id);
+    const existingVote = postData.votes.items.find(
+      (vote) => vote.userID === user.id
     );
     if (isPostLiked === true) {
       // create new PostVote record if none exists already
       if (!existingVote) {
-        const date = new Date();
-        const voteParams = {
-          userID: user.attributes.sub,
-          postID: id,
-          createdAt: date.toISOString(),
-        };
-        await API.graphql({
-          query: createPostVote,
-          variables: { input: voteParams },
-        });
+        await createPostVoteService(user.id, id);
+
         // update post voteCount in db
-        updateVoteCount(postData.data.getPost.voteCount, 1);
+        await updatePostVoteCountService(id, postData.voteCount + 1);
       }
     } else if (existingVote) {
       // delete from PostVote if already there
-      await API.graphql({
-        query: deletePostVote,
-        variables: { input: { id: existingVote.id } },
-      });
+      await deletePostVoteService(existingVote.id);
+
       // update post voteCount in db
-      updateVoteCount(postData.data.getPost.voteCount, -1);
+      await updatePostVoteCountService(id, postData.voteCount - 1);
     }
   }
 
