@@ -90,7 +90,7 @@ function DrawerMenu({ handleDrawerItemClick }) {
                 <ListItemIcon>
                   <Home />
                 </ListItemIcon>
-                <ListItemText primary="Homepage" />
+                <ListItemText primary="Home page" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -102,7 +102,7 @@ function DrawerMenu({ handleDrawerItemClick }) {
                 <ListItemIcon>
                   <Person />
                 </ListItemIcon>
-                <ListItemText primary="My posts" />
+                <ListItemText primary="My argots" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
