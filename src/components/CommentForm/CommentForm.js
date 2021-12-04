@@ -42,7 +42,6 @@ function CommentForm({ onSubmitHandler }) {
               },
             }}
           >
-            {/* <h2 style={{margin:0}}>Comments</h2> */}
             <Typography variant="h6">Discussion</Typography>
           </AccordionSummary>
           <AccordionDetails>
