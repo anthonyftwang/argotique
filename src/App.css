@@ -14,14 +14,29 @@ main a:visited {
 }
 
 :root {
-  --amplify-primary-color: #0055a4;
-  --amplify-primary-tint: #1a66ad;
-  --amplify-primary-shade: #004d94;
-
   --argotique-blue: #0055a4;
   --argotique-red: #ef4135;
   --argotique-white: #ffffff;
 
   --argotique-main-padding: 1rem;
   --argotique-drawer-min-width: 300px;
+
+  --amplify-primary-color: var(--argotique-blue);
+  --amplify-primary-tint: #1a66ad;
+  --amplify-primary-shade: #004d94;
+
+  --amplify-colors-brand-primary-100: var(--argotique-blue);
+  --amplify-colors-brand-primary-90: var(--argotique-blue);
+  --amplify-colors-brand-primary-80: var(--argotique-blue);
+  --amplify-colors-brand-primary-70: var(--argotique-blue);
+  --amplify-colors-brand-primary-60: var(--argotique-blue);
+  --amplify-colors-brand-primary-50: var(--argotique-blue);
+  --amplify-colors-brand-primary-40: var(--argotique-blue);
+  --amplify-colors-brand-primary-30: var(--amplify-colors-transparent);
+  --amplify-colors-brand-primary-20: var(--amplify-colors-transparent);
+  --amplify-colors-brand-primary-10: var(--amplify-colors-transparent);
+}
+
+[data-amplify-authenticator] {
+  margin-top: 15vh;
 }
