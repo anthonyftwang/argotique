@@ -152,7 +152,11 @@ function DrawerMenu({ handleDrawerItemClick }) {
 }
 
 DrawerMenu.propTypes = {
-  handleDrawerItemClick: PropTypes.func.isRequired,
+  handleDrawerItemClick: PropTypes.func,
+};
+
+DrawerMenu.defaultProps = {
+  handleDrawerItemClick: null,
 };
 
 export default DrawerMenu;
