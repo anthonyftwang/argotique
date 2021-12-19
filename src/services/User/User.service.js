@@ -7,11 +7,15 @@ import {
 
 export const getCurrentUserService =
   async function authGetCurrentUserService() {
-    const user = await Auth.currentAuthenticatedUser();
-    return {
-      id: user.attributes.sub,
-      name: user.username,
-    };
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      return {
+        id: user.attributes.sub,
+        name: user.username,
+      };
+    } catch (e) {
+      return null;
+    }
   };
 
 export const getUserService = async function apiGetUserService(id) {
