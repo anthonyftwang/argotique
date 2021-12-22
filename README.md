@@ -4,6 +4,8 @@
 
 🌐 Live at [argotique.net](https://www.argotique.net)
 
+📖 Interactive docs [here](https://anthonyftwang.github.io/argotqiue)
+
 🛠 Built with React, GraphQL, & AWS Amplify (ft. Lambda, S3, DynamoDB, AppSync, & Cognito)
 
 ### Features
@@ -47,6 +49,12 @@
 ```sh
 ~ yarn start
 ```
+
+### Build the front end
+
+1. Clone the repository and run `npm install`
+2. Run `npm start` to host the site locally
+3. Run `npx styleguidist server` to host the docs locally
 
 ### Deploy the front end
 
