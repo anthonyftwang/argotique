@@ -29,10 +29,10 @@ function App() {
 
   return (
     <Authenticator>
-      {() => (
+      {({ user }) => (
         <Router basename="/">
           <div>
-            <Nav />
+            <Nav username={user.username} />
             <main>
               <Routes>
                 <Route
@@ -64,7 +64,7 @@ function App() {
                   element={<Navigate replace to="/" key={Math.random()} />}
                 />
               </Routes>
-              {wideScreen && <DrawerMenu />}
+              {wideScreen && <DrawerMenu username={user.username} />}
             </main>
           </div>
         </Router>
