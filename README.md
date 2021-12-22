@@ -4,7 +4,7 @@
 
 🌐 Live at [argotique.net](https://www.argotique.net)
 
-📖 Interactive docs [here](https://anthonyftwang.github.io/argotqiue)
+📖 Interactive docs [here](https://anthonyftwang.github.io/argotique)
 
 🛠 Built with React, GraphQL, & AWS Amplify (ft. Lambda, S3, DynamoDB, AppSync, & Cognito)
 
