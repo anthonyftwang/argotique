@@ -113,7 +113,7 @@ dist
 /coverage
 
 # production
-/build
+!/build
 
 # misc
 .DS_Store
@@ -147,3 +147,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+# docs
+!docs/build
