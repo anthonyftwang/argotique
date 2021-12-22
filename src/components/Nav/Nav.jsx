@@ -28,17 +28,21 @@ ElevationScroll.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-function Nav() {
+/**
+ * Top navigation bar with app branding and mobile menu toggle.
+ */
+
+function Nav({ username, position }) {
   const theme = useTheme();
   const showTempDrawer = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <nav>
       <ElevationScroll>
-        <AppBar>
+        <AppBar position={position}>
           <Toolbar>
             <div className="appBannerContainer">
-              <Link to="/" className="appBanner">
+              <Link to="/" className="appBanner" aria-label="home page">
                 <span className="appLogo">
                   <MessageCircle size={32} />
                 </span>
@@ -47,7 +51,7 @@ function Nav() {
                 </Typography>
               </Link>
             </div>
-            {showTempDrawer && <MobileDrawer />}
+            {showTempDrawer && <MobileDrawer username={username} />}
           </Toolbar>
         </AppBar>
       </ElevationScroll>
@@ -55,5 +59,16 @@ function Nav() {
     </nav>
   );
 }
+
+Nav.propTypes = {
+  /** Username passed on to MobileDrawer component. */
+  username: PropTypes.string.isRequired,
+  /** Optional AppBar position prop for flexibility with docs. */
+  position: PropTypes.string,
+};
+
+Nav.defaultProps = {
+  position: 'fixed',
+};
 
 export default Nav;

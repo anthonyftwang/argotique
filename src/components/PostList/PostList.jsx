@@ -10,6 +10,11 @@ import Loading from 'components/Loading/Loading';
 import PostListHeader from 'components/PostListHeader/PostListHeader';
 import PostDialog from 'components/PostDialog/PostDialog';
 
+/**
+ * Composite component consisting of PostListHeader
+ * and a series of Posts fetched using the given method.
+ */
+
 function PostList({
   fetchPosts,
   makeTitleText,
@@ -129,10 +134,16 @@ function PostList({
 }
 
 PostList.propTypes = {
+  /** Function provided by the parent page to fetch desired subset of posts. */
   fetchPosts: PropTypes.func.isRequired,
+  /** Function to generate a heading for
+   * non-sortable lists based on the parent page. */
   makeTitleText: requiredIf(PropTypes.func, (props) => !props.showSort),
+  /** Display a sort button to allow reordering the list.  */
   showSort: PropTypes.bool,
+  /** Display an create button to allow adding a new post to the list. */
   showAdd: PropTypes.bool,
+  /** Default list sort method. */
   defaultSort: PropTypes.oneOf(['Top', 'New', 'Active']).isRequired,
 };
 

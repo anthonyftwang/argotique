@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Drawer, IconButton } from '@mui/material';
 import { MenuOutlined } from '@mui/icons-material';
 import DrawerMenu from 'components/DrawerMenu/DrawerMenu';
 
-function MobileDrawer() {
+/**
+ * Hamburger side drawer to access navigation menu on mobile devices.
+ */
+
+function MobileDrawer({ username }) {
   const [drawerOpen, setDrawerOpen] = useState();
 
   const toggleDrawer = () => {
@@ -13,12 +18,11 @@ function MobileDrawer() {
   return (
     <div>
       <IconButton
-        className="dotsButton"
+        className="drawerButton"
+        id="drawer-toggle"
         onClick={toggleDrawer}
-        aria-label="more"
-        aria-controls="action-menu"
+        aria-label="toggle drawer"
         aria-expanded={drawerOpen ? 'true' : undefined}
-        aria-haspopup="true"
       >
         <MenuOutlined color="secondary" />
       </IconButton>
@@ -26,16 +30,23 @@ function MobileDrawer() {
         anchor="right"
         open={drawerOpen}
         onClose={toggleDrawer}
+        role="navigation"
+        aria-label="drawer menu"
         sx={{
           '& .MuiDrawer-paper': {
             minWidth: 'var(--argotique-drawer-min-width)',
           },
         }}
       >
-        <DrawerMenu handleDrawerItemClick={toggleDrawer} />
+        <DrawerMenu username={username} handleDrawerItemClick={toggleDrawer} />
       </Drawer>
     </div>
   );
 }
+
+MobileDrawer.propTypes = {
+  /** Username passed on to DrawerMenu component. */
+  username: PropTypes.string.isRequired,
+};
 
 export default MobileDrawer;

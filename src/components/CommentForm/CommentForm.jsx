@@ -13,6 +13,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './CommentForm.css';
 
+/** Discussion section heading with an accordian that
+ * reveals a validated input field for submitting comments.
+ */
+
 function CommentForm({ onSubmitHandler }) {
   const formik = useFormik({
     initialValues: {
@@ -32,7 +36,7 @@ function CommentForm({ onSubmitHandler }) {
         <Accordion elevation={0}>
           <AccordionSummary
             expandIcon={<ExpandMore />}
-            aria-controls="expand-comment-form"
+            aria-label="expand to submit a comment"
             sx={{
               '&.Mui-expanded': {
                 minHeight: 0,
@@ -57,7 +61,8 @@ function CommentForm({ onSubmitHandler }) {
                     multiline
                     value={formik.values.comment}
                     onChange={formik.handleChange}
-                    error={formik.errors.comment}
+                    error={!!formik.errors.comment}
+                    aria-label="comment input field"
                   />
                   {formik.errors.comment ? (
                     <div className="commentError">{formik.errors.comment}</div>
@@ -69,6 +74,7 @@ function CommentForm({ onSubmitHandler }) {
                   variant="contained"
                   type="submit"
                   disabled={!(formik.isValid && formik.dirty)}
+                  aria-label="submit comment"
                 >
                   Submit
                 </Button>
@@ -82,6 +88,7 @@ function CommentForm({ onSubmitHandler }) {
 }
 
 CommentForm.propTypes = {
+  /** Callback when button to submit comment is clicked. */
   onSubmitHandler: PropTypes.func.isRequired,
 };
 

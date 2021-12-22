@@ -7,6 +7,10 @@ import './PostListHeader.css';
 
 const sortOptions = ['Top', 'New', 'Active'];
 
+/**
+ * Title bar for post lists with optional sort and create buttons.
+ */
+
 function PostListHeader({
   titleText,
   showSort,
@@ -47,7 +51,7 @@ function PostListHeader({
           <div className="sortMenu">
             <Tooltip title="Sort by">
               <IconButton
-                aria-label="sort"
+                aria-label="sort argots"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClickSortButton}
               >
@@ -68,6 +72,7 @@ function PostListHeader({
                   key={option}
                   selected={index === selectedIndex}
                   onClick={() => handleMenuItemClick(index)}
+                  aria-label={`${option.toLowerCase()} argots`}
                 >
                   {option}
                 </MenuItem>
@@ -88,10 +93,16 @@ function PostListHeader({
 }
 
 PostListHeader.propTypes = {
+  /** The title of the post list, which can
+   * be static or reflect the sort method. */
   titleText: PropTypes.string.isRequired,
+  /** Display a sort button to allow reordering the list. */
   showSort: PropTypes.bool,
+  /** Display an create button to allow adding a new post to the list. */
   showAdd: PropTypes.bool,
+  /** Callback when sort button is clicked.  */
   sortChangeHandler: requiredIf(PropTypes.func, (props) => props.showSort),
+  /** Callback when add button is clicked. */
   addPostHandler: requiredIf(PropTypes.func, (props) => props.showAdd),
 };
 

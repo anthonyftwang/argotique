@@ -11,6 +11,10 @@ import {
 import { MoreVert, Edit, Delete } from '@mui/icons-material';
 import './ActionMenu.css';
 
+/**
+ * Three-dots menu for additional post actions.
+ */
+
 function ActionMenu({ isOwnedByUser, editPostHandler, deletePostHandler }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -38,9 +42,8 @@ function ActionMenu({ isOwnedByUser, editPostHandler, deletePostHandler }) {
       <IconButton
         className="dotsButton"
         onClick={handleClick}
-        aria-label="more"
-        aria-controls="action-menu"
-        aria-expanded={open ? 'true' : undefined}
+        aria-label="more actions"
+        aria-expanded={open}
         aria-haspopup="true"
       >
         <MoreVert />
@@ -62,13 +65,21 @@ function ActionMenu({ isOwnedByUser, editPostHandler, deletePostHandler }) {
           horizontal: 'right',
         }}
       >
-        <MenuItem disabled={!isOwnedByUser} onClick={handleEdit}>
+        <MenuItem
+          disabled={!isOwnedByUser}
+          onClick={handleEdit}
+          aria-label="edit argot"
+        >
           <ListItemIcon>
             <Edit fontSize="small" />
           </ListItemIcon>
           <ListItemText>Edit argot</ListItemText>
         </MenuItem>
-        <MenuItem disabled={!isOwnedByUser} onClick={handleDelete}>
+        <MenuItem
+          disabled={!isOwnedByUser}
+          onClick={handleDelete}
+          aria-label="delete argot"
+        >
           <ListItemIcon>
             <Delete fontSize="small" />
           </ListItemIcon>
@@ -80,8 +91,13 @@ function ActionMenu({ isOwnedByUser, editPostHandler, deletePostHandler }) {
 }
 
 ActionMenu.propTypes = {
+  /** If user did not submit the corresponding post, menu items are disabled. */
   isOwnedByUser: PropTypes.bool.isRequired,
+
+  /** Callback when edit menu item is clicked. */
   editPostHandler: requiredIf(PropTypes.func, (props) => props.isOwnedByUser),
+
+  /** Callback when delete menu item is clicked. */
   deletePostHandler: requiredIf(PropTypes.func, (props) => props.isOwnedByUser),
 };
 

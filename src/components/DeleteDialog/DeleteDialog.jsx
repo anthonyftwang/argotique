@@ -9,6 +9,10 @@ import {
   DialogTitle,
 } from '@mui/material';
 
+/**
+ * Confirmation dialog for deleting posts.
+ */
+
 function DeleteDialog({ open, onClose, onSubmitHandler }) {
   const closeDialog = () => {
     onClose();
@@ -26,16 +30,23 @@ function DeleteDialog({ open, onClose, onSubmitHandler }) {
         <DialogContentText>This action cannot be undone.</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeDialog}>Cancel</Button>
-        <Button onClick={confirmDelete}>Delete</Button>
+        <Button onClick={closeDialog} aria-label="cancel delete">
+          Cancel
+        </Button>
+        <Button onClick={confirmDelete} aria-label="confirm delete">
+          Delete
+        </Button>
       </DialogActions>
     </Dialog>
   );
 }
 
 DeleteDialog.propTypes = {
+  /** Determines whether dialog is visible. */
   open: PropTypes.bool,
+  /** Callback when dialog is closed. */
   onClose: PropTypes.func.isRequired,
+  /** Callback when dialog is confirmed. */
   onSubmitHandler: PropTypes.func.isRequired,
 };
 

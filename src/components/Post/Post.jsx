@@ -17,6 +17,10 @@ import { getCurrentUserService } from 'services/User/User.service';
 import ActionMenu from 'components/ActionMenu/ActionMenu';
 import './Post.css';
 
+/**
+ * Card displaying a post as part of a listing or in detail on its own.
+ */
+
 function Post({
   isPreview,
   id,
@@ -44,24 +48,26 @@ function Post({
 
     // backend changes are logically driven
     const user = await getCurrentUserService();
-    const postData = await getPostService(id);
-    const existingVote = postData.votes.items.find(
-      (vote) => vote.userID === user.id
-    );
-    if (isPostLiked === true) {
-      // create new PostVote record if none exists already
-      if (!existingVote) {
-        await createPostVoteService(user.id, id);
+    if (user) {
+      const postData = await getPostService(id);
+      const existingVote = postData.votes.items.find(
+        (vote) => vote.userID === user.id
+      );
+      if (isPostLiked === true) {
+        // create new PostVote record if none exists already
+        if (!existingVote) {
+          await createPostVoteService(user.id, id);
+
+          // update post voteCount in db
+          await updatePostVoteCountService(id, postData.voteCount + 1);
+        }
+      } else if (existingVote) {
+        // delete from PostVote if already there
+        await deletePostVoteService(existingVote.id);
 
         // update post voteCount in db
-        await updatePostVoteCountService(id, postData.voteCount + 1);
+        await updatePostVoteCountService(id, postData.voteCount - 1);
       }
-    } else if (existingVote) {
-      // delete from PostVote if already there
-      await deletePostVoteService(existingVote.id);
-
-      // update post voteCount in db
-      await updatePostVoteCountService(id, postData.voteCount - 1);
     }
   }
 
@@ -90,11 +96,12 @@ function Post({
                     to={`/user/${username}`}
                     color="inherit"
                     underline="hover"
+                    aria-label="post author"
                   >
                     {username}
                   </Link>
                   {' · '}
-                  {contentAge}
+                  <span aria-label="post age">{contentAge}</span>
                 </Typography>
                 {!isPreview && (
                   <span className="postActions">
@@ -118,30 +125,46 @@ function Post({
                   setPostLiked(!liked);
                 }}
                 size={40}
-                strokeColor="var(--argotique-red)"
-                pathCss="fill:var(--argotique-red)"
+                strokeColor="#ef4135"
+                pathCss="fill:#ef4135"
                 animation={heart}
                 wrapperStyle={{ marginTop: '-4px' }}
+                aria-label="like button"
               />
             </Grid>
             <Grid item sm={10.875} xs={10}>
               {isPreview ? (
-                <Typography className="postTitle" variant="h5">
+                <Typography
+                  className="postTitle"
+                  variant="h5"
+                  aria-label="post title"
+                >
                   {title}
                 </Typography>
               ) : (
                 <div className="postContent">
-                  <Typography className="postTitle" variant="h5" gutterBottom>
+                  <Typography
+                    className="postTitle"
+                    variant="h5"
+                    aria-label="post title"
+                    gutterBottom
+                  >
                     {title} 🇫🇷
                   </Typography>
                   <Typography
                     className="postSubtitle"
                     variant="h6"
+                    aria-label="post subtitle"
                     gutterBottom
                   >
                     {subtitle} 🇬🇧
                   </Typography>
-                  <Typography className="postText" variant="body1" paragraph>
+                  <Typography
+                    className="postText"
+                    variant="body1"
+                    paragraph
+                    aria-label="additional post text"
+                  >
                     {content}
                   </Typography>
                 </div>
@@ -151,7 +174,11 @@ function Post({
           <Grid container item spacing={2}>
             <Grid item sm={1.125} xs={2} />
             <Grid item sm={10.875} xs={10}>
-              <Typography className="postMetrics" variant="subtitle1">
+              <Typography
+                className="postMetrics"
+                variant="subtitle1"
+                aria-label="post metrics"
+              >
                 {displayLikes} {displayLikes === 1 ? 'like' : 'likes'}
                 {' · '}
                 {commentCount} {commentCount === 1 ? 'comment' : 'comments'}
@@ -165,19 +192,38 @@ function Post({
 }
 
 Post.propTypes = {
+  /** In post lists, the subtitle and content are not displayed. */
   isPreview: PropTypes.bool,
+  /** Unique postID which is the document key in the DB. */
   id: PropTypes.string.isRequired,
+  /** The username that submitted the post. */
   username: PropTypes.string.isRequired,
+  /** The title (French expression field) of the post. */
   title: PropTypes.string.isRequired,
+  /** The subtitle (English translation field) of the post. */
   subtitle: PropTypes.string.isRequired,
+  /** The text of the post (an optional explanation field). */
   content: PropTypes.string,
+  /** The number of likes on the post. */
   voteCount: PropTypes.number.isRequired,
+  /** The number of comments on the post. */
   commentCount: PropTypes.number.isRequired,
+  /** The post age, as generated by `moment`. */
   contentAge: PropTypes.string.isRequired,
+  /** Describes whether the current user has liked this post. */
   isLiked: PropTypes.bool.isRequired,
+  /** If user did not submit the post, edit and delete is disabled. */
   isOwnedByUser: requiredIf(PropTypes.bool, (props) => !props.isPreview),
-  editPostHandler: requiredIf(PropTypes.func, (props) => !props.isPreview),
-  deletePostHandler: requiredIf(PropTypes.func, (props) => !props.isPreview),
+  /** Callback when edit menu item is clicked. */
+  editPostHandler: requiredIf(
+    PropTypes.func,
+    (props) => !props.isPreview && props.isOwnedByUser
+  ),
+  /** Callback when delete menu item is clicked. */
+  deletePostHandler: requiredIf(
+    PropTypes.func,
+    (props) => !props.isPreview && props.isOwnedByUser
+  ),
 };
 
 Post.defaultProps = {

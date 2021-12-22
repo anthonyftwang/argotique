@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import requiredIf from 'react-required-if';
 import TextField from '@mui/material/TextField';
 import {
   Button,
@@ -26,6 +27,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+/**
+ * Form dialog for creating and editing posts.
+ */
 
 function PostDialog({
   title,
@@ -79,7 +84,7 @@ function PostDialog({
       onClose={closeDialog}
       TransitionComponent={fullScreen ? Transition : Fade}
     >
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} aria-label="post form">
         <div className="postForm">
           {fullScreen ? (
             <AppBar elevation={0} sx={{ position: 'relative' }}>
@@ -103,6 +108,7 @@ function PostDialog({
                   type="submit"
                   color="inherit"
                   disabled={!(formik.isValid && formik.dirty)}
+                  aria-label="submit post"
                 >
                   Submit
                 </Button>
@@ -121,9 +127,10 @@ function PostDialog({
               autoFocus={!fullScreen}
               required
               margin="dense"
-              className="titleField"
+              className="formField"
               name="title"
               label="French expression"
+              id="titleField"
               fullWidth
               variant="standard"
               value={formik.values.title}
@@ -136,9 +143,10 @@ function PostDialog({
             <TextField
               required
               margin="dense"
-              className="subtitleField"
+              className="formField"
               name="subtitle"
               label="English translation"
+              id="subtitleField"
               fullWidth
               variant="standard"
               value={formik.values.subtitle}
@@ -152,9 +160,10 @@ function PostDialog({
             ) : null}
             <TextField
               margin="dense"
-              className="contentField"
+              className="formField"
               name="content"
               label="Explanation"
+              id="contentField"
               fullWidth
               multiline
               variant="standard"
@@ -168,10 +177,13 @@ function PostDialog({
           </DialogContent>
           {!fullScreen && (
             <DialogActions>
-              <Button onClick={closeDialog}>Cancel</Button>
+              <Button type="reset" onClick={closeDialog} aria-label="cancel">
+                Cancel
+              </Button>
               <Button
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
+                aria-label="submit post"
               >
                 Submit
               </Button>
@@ -184,12 +196,19 @@ function PostDialog({
 }
 
 PostDialog.propTypes = {
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
+  /** Pre-populated title if editing an existing post. */
+  title: requiredIf(PropTypes.string, (props) => !props.newPost),
+  /** Pre-populated subtitle if editing an existing post. */
+  subtitle: requiredIf(PropTypes.string, (props) => !props.newPost),
+  /** Pre-populated content text if editing an existing post. */
   content: PropTypes.string,
+  /** Determines whether dialog is visible. */
   open: PropTypes.bool.isRequired,
+  /** Callback when dialog is closed. */
   onClose: PropTypes.func.isRequired,
+  /** Callback when form is submitted. */
   onSubmitHandler: PropTypes.func.isRequired,
+  /** Describes whether dialog creates a new post or edits an existing one. */
   newPost: PropTypes.bool,
 };
 
@@ -197,7 +216,7 @@ PostDialog.defaultProps = {
   title: '',
   subtitle: '',
   content: '',
-  newPost: false,
+  newPost: true,
 };
 
 export default PostDialog;
