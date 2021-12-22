@@ -5,16 +5,10 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Card, CardContent, Grid, Link, Typography } from '@mui/material';
 import UseAnimations from 'react-useanimations';
 import heart from 'react-useanimations/lib/heart';
-import {
-  getPostService,
-  updatePostVoteCountService,
-} from 'services/Post/Post.service';
-import {
-  createPostVoteService,
-  deletePostVoteService,
-} from 'services/Vote/Vote.service';
-import { getCurrentUserService } from 'services/User/User.service';
-import ActionMenu from 'components/ActionMenu/ActionMenu';
+import { getPostService, updatePostVoteCountService } from 'services/Post';
+import { createPostVoteService, deletePostVoteService } from 'services/Vote';
+import { getCurrentUserService } from 'services/User';
+import ActionMenu from 'components/ActionMenu';
 import './Post.css';
 
 /**

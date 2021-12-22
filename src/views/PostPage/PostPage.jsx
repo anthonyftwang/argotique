@@ -7,18 +7,15 @@ import {
   updatePostContentService,
   deletePostService,
   updatePostCommentCountService,
-} from 'services/Post/Post.service';
-import {
-  listCommentsService,
-  createCommentService,
-} from 'services/Comment/Comment.service';
-import { getCurrentUserService } from 'services/User/User.service';
-import Post from 'components/Post/Post';
-import Comment from 'components/Comment/Comment';
-import CommentForm from 'components/CommentForm/CommentForm';
-import Loading from 'components/Loading/Loading';
-import PostDialog from 'components/PostDialog/PostDialog';
-import DeleteDialog from 'components/DeleteDialog/DeleteDialog';
+} from 'services/Post';
+import { listCommentsService, createCommentService } from 'services/Comment';
+import { getCurrentUserService } from 'services/User';
+import Post from 'components/Post';
+import Comment from 'components/Comment';
+import CommentForm from 'components/CommentForm';
+import Loading from 'components/Loading';
+import PostDialog from 'components/PostDialog';
+import DeleteDialog from 'components/DeleteDialog';
 import './PostPage.css';
 
 function PostPage({ successSnackbarHandler }) {

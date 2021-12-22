@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import requiredIf from 'react-required-if';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import { createPostService } from 'services/Post/Post.service';
-import { getCurrentUserService } from 'services/User/User.service';
-import Post from 'components/Post/Post';
-import Loading from 'components/Loading/Loading';
-import PostListHeader from 'components/PostListHeader/PostListHeader';
-import PostDialog from 'components/PostDialog/PostDialog';
+import { createPostService } from 'services/Post';
+import { getCurrentUserService } from 'services/User';
+import Post from 'components/Post';
+import Loading from 'components/Loading';
+import PostListHeader from 'components/PostListHeader';
+import PostDialog from 'components/PostDialog';
 
 /**
  * Composite component consisting of PostListHeader

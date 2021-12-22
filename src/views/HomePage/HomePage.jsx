@@ -1,7 +1,7 @@
 import React from 'react';
-import { listAllPostsService } from 'services/Post/Post.service';
-import { getCurrentUserService } from 'services/User/User.service';
-import PostList from 'components/PostList/PostList';
+import { listAllPostsService } from 'services/Post';
+import { getCurrentUserService } from 'services/User';
+import PostList from 'components/PostList';
 
 function HomePage() {
   const fetchAllPosts = async () => {

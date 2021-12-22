@@ -10,7 +10,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { MessageCircle } from 'react-feather';
-import MobileDrawer from 'components/MobileDrawer/MobileDrawer';
+import MobileDrawer from 'components/MobileDrawer';
 import './Nav.css';
 
 function ElevationScroll({ children }) {

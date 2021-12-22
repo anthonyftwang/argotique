@@ -1,7 +1,7 @@
 import React from 'react';
-import { listLikedPostsService } from 'services/Post/Post.service';
-import { getCurrentUserService } from 'services/User/User.service';
-import PostList from 'components/PostList/PostList';
+import { listLikedPostsService } from 'services/Post';
+import { getCurrentUserService } from 'services/User';
+import PostList from 'components/PostList';
 
 function LikedPage() {
   const fetchLikedPosts = async () => {

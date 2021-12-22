@@ -10,13 +10,13 @@ import { Authenticator } from '@aws-amplify/ui-react';
 // eslint-disable-next-line import/no-unresolved
 import '@aws-amplify/ui-react/styles.css';
 import { useTheme, useMediaQuery } from '@mui/material';
-import Nav from 'components/Nav/Nav';
-import DrawerMenu from 'components/DrawerMenu/DrawerMenu';
-import BasePage from 'views/BasePage/BasePage';
-import PostPage from 'views/PostPage/PostPage';
-import HomePage from 'views/HomePage/HomePage';
-import UserPage from 'views/UserPage/UserPage';
-import LikedPage from 'views/LikedPage/LikedPage';
+import Nav from 'components/Nav';
+import DrawerMenu from 'components/DrawerMenu';
+import BasePage from 'views/BasePage';
+import PostPage from 'views/PostPage';
+import HomePage from 'views/HomePage';
+import UserPage from 'views/UserPage';
+import LikedPage from 'views/LikedPage';
 import awsconfig from './aws-exports';
 import './App.css';
 

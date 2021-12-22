@@ -8,7 +8,7 @@ import {
   updatePost as updatePostMutation,
   deletePost as deletePostMutation,
 } from 'graphql/mutations';
-import { listPostVotesService } from 'services/Vote/Vote.service';
+import { listPostVotesService } from 'services/Vote';
 
 export const getPostService = async function apiGetPostService(id, userID) {
   const postData = await API.graphql({

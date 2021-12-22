@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { listUserPostsService } from 'services/Post/Post.service';
-import {
-  getCurrentUserService,
-  getUserByNameService,
-} from 'services/User/User.service';
-import PostList from 'components/PostList/PostList';
+import { listUserPostsService } from 'services/Post';
+import { getCurrentUserService, getUserByNameService } from 'services/User';
+import PostList from 'components/PostList';
 
 function UserPage() {
   const location = useLocation();

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Drawer, IconButton } from '@mui/material';
 import { MenuOutlined } from '@mui/icons-material';
-import DrawerMenu from 'components/DrawerMenu/DrawerMenu';
+import DrawerMenu from 'components/DrawerMenu';
 
 /**
  * Hamburger side drawer to access navigation menu on mobile devices.
