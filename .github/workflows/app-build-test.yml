@@ -13,9 +13,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
-    env:
-      AWS_EXPORTS: ${{ secrets.AWS_EXPORTS }}
 
     strategy:
       matrix:
@@ -30,10 +27,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: |
-        touch src/aws-exports.js
-        echo $AWS_EXPORTS >> src/aws-exports.js
-        cat src/aws-exports.js
     - run: npm run build --if-present
     - run: npm test
     - name: Code Climate Coverage Action
