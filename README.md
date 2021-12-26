@@ -4,7 +4,7 @@
 [![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/anthonyftwang/argotique?logo=code-climate)](https://codeclimate.com/github/anthonyftwang/argotique/progress/maintainability)
 [![GitHub issues](https://img.shields.io/github/issues/anthonyftwang/argotique)](https://github.com/anthonyftwang/argotique/issues)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fapp.argotique.net)](https://app.argotique.net)
-[![Docs](https://img.shields.io/website?down_message=docs&label=view&up_message=docs&url=https%3A%2F%2Fanthonyftwang.github.io%2Fargotique)](https://anthonyftwang.github.io/argotiqua)
+[![Docs](https://img.shields.io/website?down_message=docs&label=view&up_message=docs&url=https%3A%2F%2Fanthonyftwang.github.io%2Fargotique)](https://anthonyftwang.github.io/argotique)
 [![Style](https://img.shields.io/badge/code%20style-airbnb-blue)](https://github.com/airbnb/javascript)
 
 **The dictionary of everyday French: Share and discuss useful expressions and slang.**
