@@ -5,13 +5,12 @@ name: app-build-test
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,18 +19,18 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
-    - name: Code Climate Coverage Action
-      uses: paambaati/codeclimate-action@v3.0.0
-      env:
-        CC_TEST_REPORTER_ID: 172dc7b04c3c7e3b477a5c198521f3bd831d073b63b7fc9953d97f4834707116
-      with:
-        coverageCommand: npm run test -- --coverage
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+      - name: Code Climate Coverage Action
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: 172dc7b04c3c7e3b477a5c198521f3bd831d073b63b7fc9953d97f4834707116
+        with:
+          coverageCommand: npm run test --coverage --collectCoverageFrom='[src/**/*.{js,jsx}, !src/{index,reportWebVitals,setupTests}.js]'
